@@ -1,0 +1,54 @@
+#!/bin/bash
+# core-scripts/prepare-commit-msg
+
+MSG_FILE=$1
+COMMIT_SOURCE=$2
+
+# 1. 守門員：若為 merge 或 message 模式，直接放行
+if [ "$COMMIT_SOURCE" = "merge" ] || [ "$COMMIT_SOURCE" = "message" ]; then
+    exit 0
+fi
+
+# 2. 偵測變動
+STAGED_CHANGES=$(git -c core.quotepath=false diff --cached --name-status)
+STAGED_FILES=$(git -c core.quotepath=false diff --cached --name-only)
+CURRENT_BRANCH=$(git branch --show-current)
+
+# 3. 範本切換 (工程 vs 出版)
+HAS_ENG=$(echo "$STAGED_FILES" | grep -v '^library/' | grep -v '^\.gitmessage' | head -n 1)
+
+if [ -n "$HAS_ENG" ]; then
+    cat .gitmessage.eng > "$MSG_FILE"
+else
+    cat .gitmessage.pub > "$MSG_FILE"
+fi
+
+# 4. 清理預設訊息
+sed -i '/Please enter the commit message/,/empty message aborts the commit./d' "$MSG_FILE"
+
+# 5. 子系統標籤代換
+NAMES=$(echo "$STAGED_FILES" | awk -F/ '{
+    if ($1 == "library") {
+        if ($2 != "") print $2
+    } else if (NF > 1) {
+        print $1
+    }
+}' | grep -v '^$' | sort -u | paste -sd, - | sed 's/,/, /g')
+
+SUB_NAMES="${NAMES:-ROOT}"
+sed -i "s:\[SUBSYSTEM\]:\[$SUB_NAMES\]:g" "$MSG_FILE"
+
+# 6. 注入 Metadata 與檔案清單
+echo -e "\n\n# 🌿 Current Branch: $CURRENT_BRANCH" >> "$MSG_FILE"
+echo -e "\n# 📂 File List:" >> "$MSG_FILE"
+
+# [修正] 移除中文註解，確保 awk 語法絕對正確
+echo "$STAGED_CHANGES" | awk '{
+    status = substr($1, 1, 1);
+    file = $2;
+    if (status == "R") {
+        printf "#   - [R] %s -> %s\n", $2, $3
+    } else {
+        printf "#   - [%s] %s\n", status, file
+    }
+}' >> "$MSG_FILE"
