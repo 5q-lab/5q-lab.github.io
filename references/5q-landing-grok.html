@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grok's 5Q Explorer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+Mono:wght@300;400&display=swap');
+
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --gold: #b8860b;
+    --gold-light: #d4a843;
+    --rust: #8b3a2a;
+    --mist: #8a9aaa;
+    --line: rgba(26,20,16,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif TC', 'Cormorant Garamond', Georgia, serif;
+  }
+
+  /* Noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 80vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-left {
+    padding: 8vh 6vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-right {
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wuxing-diagram {
+    width: 300px;
+    height: 300px;
+    position: relative;
+  }
+
+  .wuxing-diagram svg {
+    width: 100%;
+    height: 100%;
+    animation: slow-spin 60s linear infinite;
+  }
+
+  @keyframes slow-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .eyebrow {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+  }
+
+  .headline-zh {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
+
+  .headline-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-style: italic;
+    color: var(--mist);
+    margin-bottom: 2rem;
+  }
+
+  .core-claim {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .btn {
+    padding: 0.8rem 2rem;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: inline-block;
+  }
+
+  .btn:hover {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  /* Insights */
+  .section-insights {
+    padding: 8vh 8vw;
+  }
+
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3vw;
+  }
+
+  .insight-card {
+    padding: 1rem;
+    border: 1px solid var(--line);
+  }
+
+  /* Five Qualities */
+  .five-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2vw;
+    padding: 4vh 8vw;
+  }
+
+  .five-item {
+    text-align: center;
+  }
+
+  .five-char {
+    font-size: 2rem;
+    color: var(--gold);
+  }
+
+  /* Footer */
+  .footer {
+    padding: 4vh 8vw;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--mist);
+  }
+</style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">Grok x 5Q</div>
+      <h1 class="headline-zh">探索五德的宇宙之旅</h1>
+      <div class="headline-en">Explore the Five Qualities with Grok</div>
+      <p class="core-claim">在 xAI 的好奇心驅動下，用 5Q 診斷你的思考邊界，讓 AI 成為你的星際夥伴。</p>
+      <a href="#insights" class="btn">開始探索</a>
+    </div>
+    <div class="hero-right">
+      <div class="wuxing-diagram">
+        <svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+  <!-- 木 top -->
+  <circle cx="170" cy="72" r="22" fill="rgba(139,58,42,0.15)" stroke="rgba(139,58,42,0.6)" stroke-width="1.5"/>
+  <text x="170" y="79" text-anchor="middle" fill="#b83a2a" font-family="serif" font-size="18" font-weight="900">木</text>
+
+  <!-- 火 upper right -->
+  <circle cx="289" cy="136" r="22" fill="rgba(184,134,11,0.15)" stroke="rgba(184,134,11,0.6)" stroke-width="1.5"/>
+  <text x="289" y="143" text-anchor="middle" fill="#d4a843" font-family="serif" font-size="18" font-weight="900">火</text>
+
+  <!-- 土 lower right -->
+  <circle cx="248" cy="272" r="22" fill="rgba(139,107,42,0.15)" stroke="rgba(139,107,42,0.6)" stroke-width="1.5"/>
+  <text x="248" y="279" text-anchor="middle" fill="#b8860b" font-family="serif" font-size="18" font-weight="900">土</text>
+
+  <!-- 金 lower left -->
+  <circle cx="92" cy="272" r="22" fill="rgba(61,90,110,0.15)" stroke="rgba(61,90,110,0.6)" stroke-width="1.5"/>
+  <text x="92" y="279" text-anchor="middle" fill="#5a8aa0" font-family="serif" font-size="18" font-weight="900">金</text>
+
+  <!-- 水 upper left -->
+  <circle cx="51" cy="136" r="22" fill="rgba(26,61,90,0.15)" stroke="rgba(26,61,90,0.6)" stroke-width="1.5"/>
+  <text x="51" y="143" text-anchor="middle" fill="#4a7a9e" font-family="serif" font-size="18" font-weight="900">水</text>
+
+  <!-- 相生 lines (pentagon) -->
+  <polyline points="170,72 289,136 248,272 92,272 51,136 170,72"
+    stroke="rgba(184,134,11,0.3)" stroke-width="1" fill="none"/>
+
+  <!-- 相剋 lines (star) -->
+  <polygon points="170,72 248,272 51,136 289,136 92,272"
+    stroke="rgba(139,46,26,0.15)" stroke-width="0.8" fill="none"/>
+</svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-insights" id="insights">
+    <h2>核心洞察</h2>
+    <div class="insights-grid">
+      <div class="insight-card">01: 邊界定義宇宙</div>
+      <div class="insight-card">02: 顯化好奇心</div>
+      <div class="insight-card">03: 深度如星河</div>
+    </div>
+  </section>
+
+  <section class="five-grid">
+    <div class="five-item"><div class="five-char">木</div> Boundary</div>
+    <div class="five-item"><div class="five-char">火</div> Manifestation</div>
+    <div class="five-item"><div class="five-char">土</div> Context</div>
+    <div class="five-item"><div class="five-char">金</div> Precision</div>
+    <div class="five-item"><div class="five-char">水</div> Depth</div>
+  </section>
+
+  <footer class="footer">
+    <div>Grok by xAI</div>
+    <div>Copyright © 2026 xAI. All rights reserved.</div>
+  </footer>
+</body>
+</html>
