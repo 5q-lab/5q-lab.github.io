@@ -1,0 +1,118 @@
+---
+// src/layouts/Base.astro
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const {
+  title,
+  description = 'theContext — Professional AI tools for developers and knowledge workers.',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <title>{title} — theContext</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Paddle.js (Billing) -->
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+
+  <!-- global.css injected via Astro build -->
+</head>
+<body>
+  <!-- ── Nav ── -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="/" class="nav-logo">
+        <span class="logo-tc">theContext</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/#products">Products</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/docs">Docs</a>
+        <a href="mailto:support@thecontext.dev">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ── Page content ── -->
+  <main>
+    <slot />
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="footer-copy">© 2026 JEN, YUHSIEN · theContext</span>
+      <nav class="footer-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="mailto:support@thecontext.dev">Contact</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style>
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #0a0c10cc;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+.nav-logo { text-decoration: none; }
+.logo-tc {
+  font-size: 1.1rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+.nav-links a {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--color-text); text-decoration: none; }
+
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  padding: 2rem 0;
+  margin-top: 6rem;
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-copy { color: var(--color-muted); font-size: 0.85rem; }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { color: var(--color-muted); font-size: 0.85rem; }
+.footer-links a:hover { color: var(--color-text); text-decoration: none; }
+</style>

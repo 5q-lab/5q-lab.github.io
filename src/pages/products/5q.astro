@@ -1,0 +1,85 @@
+---
+// src/pages/products/5q.astro
+import Base from '@/layouts/Base.astro';
+---
+<Base title="5Q Prompt Analyzer" description="Offline AI prompt diagnostics across five quality dimensions.">
+  <div class="container product-page">
+    <a href="/" class="back-link">← All products</a>
+
+    <header class="product-hero">
+      <span class="badge badge--sky">CLI Tool</span>
+      <h1>5Q Prompt <span class="gradient-text">Analyzer</span></h1>
+      <p class="product-hero-sub">
+        Diagnose AI prompts with the Five-Quality (Wuxing) scoring model.
+        Fully offline. Privacy-first. Built in Rust.
+      </p>
+    </header>
+
+    <!-- Pricing tiers -->
+    <section class="tiers-section">
+      <p class="section-label">Pricing</p>
+      <div class="tiers-grid">
+        {[
+          { tier: 'Basic', price: '$49', period: '/ yr · per machine', features: ['Wuxing scoring', 'regex engine', '10 lang packs included', 'Standard profiles'] },
+          { tier: 'Pro',   price: '$99', period: '/ yr · per machine', features: ['All Basic features', 'ONNX semantic engine', 'Fractal analysis', 'Custom profiles', 'Priority support'], highlight: true },
+          { tier: 'Enterprise', price: 'Contact', period: 'Site license', features: ['All Pro features', 'Unlimited machines', 'Custom model path', 'SLA support', 'Custom preset included'] },
+        ].map(({ tier, price, period, features, highlight }) => (
+          <div class={`card tier-card${highlight ? ' tier-card--highlight' : ''}`}>
+            <h3>{tier}</h3>
+            <div class="tier-price">
+              <span class="price">{price}</span>
+              <span class="price-note">{period}</span>
+            </div>
+            <ul class="feature-list">
+              {features.map(f => <li><span class="check">✓</span>{f}</li>)}
+            </ul>
+            <button
+              class="btn paddle-checkout-btn"
+              class:list={[highlight ? 'btn--primary' : 'btn--outline']}
+              data-price-id={`pri_PLACEHOLDER_5Q_${tier.toUpperCase()}`}
+              style="width: 100%; justify-content: center;"
+            >
+              {tier === 'Enterprise' ? 'Contact us' : `Get ${tier}`}
+            </button>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- TODO: screenshots, detailed feature breakdown -->
+    <section class="coming-soon-placeholder">
+      <p class="section-label">Documentation & screenshots</p>
+      <p style="color: var(--color-muted)">Coming soon — product detail copy being drafted.</p>
+    </section>
+  </div>
+</Base>
+
+<style>
+.product-page { padding: 3rem 0 6rem; max-width: 860px; }
+.back-link { color: var(--color-muted); font-size: 0.875rem; }
+.back-link:hover { color: var(--color-text); }
+.product-hero { margin: 2rem 0 3.5rem; display: flex; flex-direction: column; gap: 1rem; }
+.product-hero-sub { color: var(--color-muted); max-width: 560px; }
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+}
+.tier-card { display: flex; flex-direction: column; gap: 1.25rem; }
+.tier-card--highlight { border-color: var(--color-accent); }
+.tier-price { display: flex; flex-direction: column; }
+.price { font-size: 1.6rem; font-weight: 800; }
+.price-note { font-size: 0.75rem; color: var(--color-muted); }
+.feature-list { list-style: none; flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+.feature-list li { display: flex; gap: 0.5rem; font-size: 0.875rem; }
+.check { color: var(--color-accent); }
+
+.tiers-section { margin-bottom: 4rem; }
+.coming-soon-placeholder { padding: 2rem; border: 1px dashed var(--color-border); border-radius: 10px; }
+</style>

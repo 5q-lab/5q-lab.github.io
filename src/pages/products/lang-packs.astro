@@ -1,0 +1,76 @@
+---
+// src/pages/products/lang-packs.astro
+import Base from '@/layouts/Base.astro';
+
+const domains = [
+  { key: 'industry', label: 'Industry', packs: ['Banking', 'Medical', 'Legal', 'Logistics', 'Marketing', 'Data Science', 'Game Design', 'Software Architecture', 'Price Action', 'Sales'] },
+  { key: 'season',   label: 'Cultural & Seasonal', packs: ['Chinese New Year', 'Mid-Autumn', 'Dragon Boat', 'Christmas (DE)', 'Oktoberfest', 'Carnaval (PT)', 'Bastille Day', '...and more'] },
+  { key: 'special',  label: 'Special Styles', packs: ['Bushido', 'Imperial (ZH)', 'Hacker White/Black', 'Bard (EN)', 'Philosopher (AR)', 'Top Secret', 'Trader'] },
+  { key: 'movie',    label: 'Pop Culture', packs: ['Bond', 'Bourne', 'Star Trek (DE)', 'Stephen Chow (ZH)'] },
+];
+---
+<Base title="5Q Lang Packs" description="Domain-specific vocabulary expansion packs for 5Q Prompt Analyzer.">
+  <div class="container product-page">
+    <a href="/" class="back-link">← All products</a>
+
+    <header class="product-hero">
+      <span class="badge badge--gold">Extension</span>
+      <h1>Lang <span class="gradient-text">Packs</span></h1>
+      <p class="product-hero-sub">
+        70+ signed vocabulary packs across industry, cultural, and stylistic domains.
+        Extend 5Q's scoring vocabulary in seconds.
+      </p>
+    </header>
+
+    <!-- Pricing -->
+    <section class="pricing-row">
+      <div class="card price-option">
+        <h3>Single Pack</h3>
+        <div class="tier-price"><span class="price">$9</span><span class="price-note">one-time per pack</span></div>
+        <button class="btn btn--outline paddle-checkout-btn" data-price-id="pri_PLACEHOLDER_LANGPACK_SINGLE" style="width:100%;justify-content:center;margin-top:1rem;">Browse &amp; buy</button>
+      </div>
+      <div class="card price-option tier-card--highlight">
+        <h3>Full Bundle</h3>
+        <div class="tier-price"><span class="price">$49</span><span class="price-note">all 70+ packs · one-time</span></div>
+        <button class="btn btn--primary paddle-checkout-btn" data-price-id="pri_PLACEHOLDER_LANGPACK_BUNDLE" style="width:100%;justify-content:center;margin-top:1rem;">Get full bundle</button>
+      </div>
+    </section>
+
+    <!-- Domain overview -->
+    <section style="margin-top:3rem;">
+      <p class="section-label">What's included</p>
+      <div class="domains-grid">
+        {domains.map(({ label, packs }) => (
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">{label}</h3>
+            <ul class="pack-list">
+              {packs.map(p => <li>{p}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+.product-page { padding:3rem 0 6rem; max-width:900px; }
+.back-link { color:var(--color-muted); font-size:0.875rem; }
+.back-link:hover { color:var(--color-text); }
+.product-hero { margin:2rem 0 3rem; display:flex; flex-direction:column; gap:1rem; }
+.product-hero-sub { color:var(--color-muted); max-width:560px; }
+.gradient-text {
+  background:linear-gradient(135deg,var(--color-gold),#f97316);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.pricing-row { display:flex; gap:1.25rem; flex-wrap:wrap; }
+.price-option { flex:1; min-width:200px; }
+.tier-card--highlight { border-color:var(--color-gold); }
+.tier-price { display:flex; flex-direction:column; margin-top:0.5rem; }
+.price { font-size:1.6rem; font-weight:800; }
+.price-note { font-size:0.75rem; color:var(--color-muted); }
+.domains-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-top:1rem; }
+.pack-list { list-style:none; display:flex; flex-direction:column; gap:0.35rem; }
+.pack-list li { font-size:0.85rem; color:var(--color-muted); }
+.pack-list li::before { content:"· "; color:var(--color-gold); }
+</style>

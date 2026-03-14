@@ -1,0 +1,102 @@
+---
+// src/components/Hero.astro
+---
+<section class="hero">
+  <div class="container hero-inner">
+    <p class="section-label">theContext · AI Toolchain</p>
+    <h1 class="hero-title">
+      Tools built for<br />
+      <span class="gradient-text">serious practitioners</span>
+    </h1>
+    <p class="hero-sub">
+      Offline-first AI diagnostics, COBOL migration toolchain,
+      and context-aware language packs — for developers who ship real work.
+    </p>
+    <div class="hero-ctas">
+      <a href="#products" class="btn btn--primary">View products</a>
+      <a href="/docs" class="btn btn--outline">Documentation</a>
+    </div>
+
+    <!-- Terminal teaser -->
+    <div class="terminal-demo">
+      <div class="terminal-bar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span class="terminal-title">5q — Five Quality Analyzer</span>
+      </div>
+      <pre class="terminal-body"><code><span class="dim">$</span> 5q analyze prompt.md
+
+<span class="accent">▶ Metal</span>  (precision/structure)  ████████░░  82
+<span class="accent">▶ Wood</span>   (clarity/growth)       ██████░░░░  61
+<span class="accent">▶ Water</span>  (depth/adaptability)   █████████░  90
+<span class="accent">▶ Fire</span>   (expressiveness)       ███████░░░  73
+<span class="accent">▶ Earth</span>  (grounding/context)    ████████░░  80
+
+<span class="gold">Overall score: 77.2 / 100</span>
+<span class="dim">─ Profile: industry_dev_arch_en  ─ Tokens: 312</span></code></pre>
+    </div>
+  </div>
+</section>
+
+<style>
+.hero {
+  padding: 6rem 0 4rem;
+  text-align: center;
+}
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-sub {
+  max-width: 580px;
+  color: var(--color-muted);
+  font-size: 1.05rem;
+}
+.hero-ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+
+/* Terminal */
+.terminal-demo {
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 640px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: left;
+}
+.terminal-bar {
+  background: #1a1f2e;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.85rem;
+}
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.red    { background: #ff5f57; }
+.yellow { background: #febc2e; }
+.green  { background: #28c840; }
+.terminal-title {
+  margin-left: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+.terminal-body {
+  background: #0d1117;
+  border: none;
+  border-radius: 0;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.82rem;
+  line-height: 1.9;
+}
+.terminal-body code { background: none; border: none; padding: 0; font-size: inherit; }
+.dim    { color: var(--color-muted); }
+.accent { color: var(--color-accent); }
+.gold   { color: var(--color-gold); }
+</style>

@@ -1,0 +1,70 @@
+---
+// src/pages/products/hanset.astro
+import Base from '@/layouts/Base.astro';
+---
+<Base title="hanset" description="Context anchor and environment config manager for AI-assisted development.">
+  <div class="container product-page">
+    <a href="/" class="back-link">← All products</a>
+
+    <header class="product-hero">
+      <span class="badge badge--indigo">CLI Tool</span>
+      <h1>hanset</h1>
+      <p class="product-hero-sub">
+        Automatically inject structured project context into any AI session.
+        Manage environments, anchors, and team knowledge bases — all offline.
+      </p>
+    </header>
+
+    <section class="tiers-section">
+      <p class="section-label">Pricing</p>
+      <div class="tiers-grid">
+        {[
+          { tier: 'Annual',     price: '$29', period: '/ yr · per machine', features: ['Auto context injection', 'Multi-env config', 'License-verified startup', 'macOS / Linux'] },
+          { tier: 'Perpetual',  price: '$79', period: 'one-time · per machine', features: ['All Annual features', 'Lifetime updates (major)', 'Priority support'], highlight: true },
+        ].map(({ tier, price, period, features, highlight }) => (
+          <div class={`card tier-card${highlight ? ' tier-card--highlight' : ''}`}>
+            <h3>{tier}</h3>
+            <div class="tier-price">
+              <span class="price">{price}</span>
+              <span class="price-note">{period}</span>
+            </div>
+            <ul class="feature-list">
+              {features.map(f => <li><span class="check">✓</span>{f}</li>)}
+            </ul>
+            <button
+              class={`btn paddle-checkout-btn ${highlight ? 'btn--primary' : 'btn--outline'}`}
+              data-price-id={`pri_PLACEHOLDER_HANSET_${tier.toUpperCase()}`}
+              style="width:100%;justify-content:center;"
+            >
+              Get {tier}
+            </button>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="coming-soon-placeholder">
+      <p class="section-label">Documentation & screenshots</p>
+      <p style="color:var(--color-muted)">Coming soon.</p>
+    </section>
+  </div>
+</Base>
+
+<style>
+.product-page { padding:3rem 0 6rem; max-width:860px; }
+.back-link { color:var(--color-muted); font-size:0.875rem; }
+.back-link:hover { color:var(--color-text); }
+.product-hero { margin:2rem 0 3.5rem; display:flex; flex-direction:column; gap:1rem; }
+.product-hero-sub { color:var(--color-muted); max-width:560px; }
+.tiers-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.25rem; margin-top:1.25rem; }
+.tier-card { display:flex; flex-direction:column; gap:1.25rem; }
+.tier-card--highlight { border-color:var(--color-accent2); }
+.tier-price { display:flex; flex-direction:column; }
+.price { font-size:1.6rem; font-weight:800; }
+.price-note { font-size:0.75rem; color:var(--color-muted); }
+.feature-list { list-style:none; flex:1; display:flex; flex-direction:column; gap:0.5rem; }
+.feature-list li { display:flex; gap:0.5rem; font-size:0.875rem; }
+.check { color:var(--color-accent2); }
+.tiers-section { margin-bottom:4rem; }
+.coming-soon-placeholder { padding:2rem; border:1px dashed var(--color-border); border-radius:10px; }
+</style>
