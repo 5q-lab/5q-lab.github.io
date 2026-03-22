@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5Q Prompt 診斷工具 | 官方網站 - theContext RD Team</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #2ea44f; /* 成功綠，也象徵木德 */
+            --border-color: #30363d;
+            --code-font: 'Fira Code', 'Courier New', monospace;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-text {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(180deg, #fff, #8b949e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 20px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            margin-top: 1rem;
+        }
+
+        section {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h2 {
+            font-size: 2rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* 五德架構樣式 */
+        .five-quality-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .quality-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .quality-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(46, 164, 79, 0.15);
+            border-color: var(--accent);
+        }
+
+        .quality-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+        .quality-name { font-size: 1.25rem; font-weight: 700; color: #fff; }
+        .quality-desc { font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.5rem; }
+
+        /* 功能特點樣式 */
+        .features-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .features-list li {
+            background-color: var(--card-bg);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .features-list li::before {
+            content: "✓";
+            color: var(--accent);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* CLI 範例樣式 */
+        .code-block {
+            background-color: #000;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: var(--code-font);
+            font-size: 0.9rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            color: #d2a8ff; /* 類似 Rust string color */
+            position: relative;
+        }
+
+        .code-block::before {
+            content: "$";
+            color: var(--text-secondary);
+            margin-right: 10px;
+        }
+
+        .code-comment { color: var(--text-secondary); }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .logo-text { font-size: 2.2rem; }
+            .subtitle { font-size: 1rem; }
+            .container { padding: 1rem; }
+        }
+        /* 實戰示範樣式 */
+        .demo-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .demo-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .demo-header {
+            background-color: var(--border-color);
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            font-family: var(--code-font);
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .demo-content {
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            flex-grow: 1;
+        }
+
+        .terminal {
+            background-color: #000;
+            border-color: #333;
+        }
+
+        .terminal-content {
+            padding: 1rem;
+            font-family: var(--code-font);
+            font-size: 0.85rem;
+            color: #00ff00; /* 終端機綠 */
+            margin: 0;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+
+        blockquote {
+            border-left: 3px solid var(--accent);
+            margin: 0;
+            padding-left: 1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        @media (max-width: 850px) {
+            .demo-wrapper { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1 class="logo-text">5Q Prompt</h1>
+        <p class="subtitle">Five-Quality Prompt Diagnostic Tool</p>
+        <p class="subtitle">AI Prompt 深度診斷工貝 - 統一主入口</p>
+        <span class="badge">v0.3.1 (Multi-Backend)</span>
+    </header>
+
+    <section id="about">
+        <h2>關於 5Q Prompt</h2>
+        <p>5Q Prompt 是一個基於東方傳統哲學<strong>「五德」（木、火、土、金、水）</strong>核心架構研發的 AI Prompt 深度診斷工具。它不單純依賴關鍵字匹配，更引入了先進的<strong>語意推論（Semantic Inference）</strong>技術，全方位評估 Prompt 的結構、創意、清晰度、精準度與流暢度。</p>
+        <p>本工具由 theContext RD 團隊開發，旨在幫助開發者與生成式 AI 使用者，精準標定 Prompt 訊號，優化生成結果。</p>
+    </section>
+
+    <section id="architecture">
+        <h2>「五德」診斷架構</h2>
+        <p>我們將 Prompt 的不同維度映射至五行屬性，透過獨家的評分演算法與「相生邏輯（Sheng Cycle）」校準，計算出最優化的「混合分數」。</p>
+        
+        <div class="five-quality-grid">
+            <div class="quality-card" style="border-color: #98ff98;"> <span class="quality-icon">🪵</span>
+                <span class="quality-name">木 (Wood)</span>
+                <p class="quality-desc"><strong>結構與成長</strong><br>評估 Prompt 的層次、框架與擴展性。</p>
+            </div>
+            <div class="quality-card" style="border-color: #ff6b6b;"> <span class="quality-icon">🔥</span>
+                <span class="quality-name">火 (Fire)</span>
+                <p class="quality-desc"><strong>創意與張力</strong><br>評估 Prompt 的創新性、情感與表達強度。</p>
+            </div>
+            <div class="quality-card" style="border-color: #f4d03f;"> <span class="quality-icon">🧱</span>
+                <span class="quality-name">土 (Earth)</span>
+                <p class="quality-desc"><strong>清晰與落地</strong><br>評估 Prompt 的具體程度、背景與穩定性。</p>
+            </div>
+            <div class="quality-card" style="border-color: #e0e0e0;"> <span class="quality-icon">⚔️</span>
+                <span class="quality-name">金 (Metal)</span>
+                <p class="quality-desc"><strong>精準與剪裁</strong><br>評估 Prompt 的約束、邏輯與簡潔度。</p>
+            </div>
+            <div class="quality-card" style="border-color: #3498db;"> <span class="quality-icon">💧</span>
+                <span class="quality-name">水 (Water)</span>
+                <p class="quality-desc"><strong>流暢與應變</strong><br>評估 Prompt 的語句通順度與語境適應力。</p>
+            </div>
+        </div>
+        <p style="border: 1px solid var(--accent); padding: 1rem; border-radius: 8px; background: rgba(46, 164, 79, 0.05);">
+        🛡️ <strong>100% 本地推論：</strong> 所有的語意分析與向量計算皆在您的設備上完成。您的 Prompt 內容<strong>絕不上傳至任何雲端伺服器</strong>，確保最高等級的開發隱私與資料安全。
+        </p>
+    </section>
+
+    <section id="features">
+        <h2>核心技術與功能</h2>
+        <ul class="features-list">
+            <li><strong>統一主入口 (Main Entry)：</strong> 整合多種推論引擎，靈活切換。</li>
+            <li><strong>高效能語意引擎：</strong> 支援 <a href="https://github.com/huggingface/candle" target="_blank">Candle</a> (Pure Rust)、ONNX Runtime (ORT) 與 Burn (WGPU)。</li>
+            <li><strong>混合診斷模式 (Hybrid)：</strong> 完美結合傳統 Regex 關鍵字匹配與現代向量語意分析。</li>
+            <li><strong>三方語言解耦：</strong> 獨立控制 UI 語言 (-l)、語意錨點 (-a) 與 Regex 字典 (-r)。</li>
+            <li><strong>5QD 守護進程 (Daemon)：</strong> 支援背景服務模式，大幅加速語意推論速度。</li>
+            <li><strong>完善的授權與語言包：</strong> 內建 Tier 授權系統，支援擴充語言風格包 (.5qpack)。</li>
+        </ul>
+    </section>
+
+    <section id="cli">
+        <h2>快速開始 (CLI 範例)</h2>
+        <p>5Q Prompt 是一個強大的命令行工具 (CLI)。以下是一些基本的診斷命令：</p>
+        
+        <h3>1. 基礎hybrid診斷 (中文 UI + 中文字典)</h3>
+        <div class="code-block">
+            fiveq --prompt "請幫我寫一篇關於量子力學的科普文章"
+        </div>
+
+        <h3>2. 純語意分析模式 (Candle/ORT/Burn Backend)</h3>
+        <div class="code-block">
+            fiveq -m semantic --prompt "Write a short story about a robot learning to love."
+        </div>
+
+        <h3>3. 國際化解耦呼叫 (繁體 UI + 中文錨點 + 中文字典)</h3>
+        <div class="code-block">
+            fiveq -l hant -a zh -r zh --prompt "..."
+        </div>
+
+        <p style="margin-top: 1.5rem;"><small class="code-comment">💡 更多進階功能（如 <code>5q daemon start</code> 或 <code>5q pack install</code>），請參閱內建說明或開發文件。</small></p>
+    </section>
+    <section id="demo">
+        <h2>實戰示範：喵嗚特化診斷</h2>
+        <p>當 5Q 遇上 <code>animal_meow</code> 擴充包：我們對一份融合了「賽博封神」與「五德」概念的複雜 Prompt 進行了 ONNX 深度推論。</p>
+        
+        <div class="demo-wrapper">
+            <div class="demo-box">
+                <div class="demo-header">Input: data/test_prompt.md</div>
+                <div class="demo-content markdown-body">
+                    <strong>☯ 賽博封神：全自動化治理協議 ☯</strong><br><br>
+                    <blockquote>
+                        開發者必須建立嚴密的「定界」框架，像<strong>木</strong>一樣向外擴張生長...<br>
+                        系統的「顯化」層級需要如<strong>火</strong>般璀璨...<br>
+                        基礎架構中必須有如同<strong>土</strong>一般的堅實承載力...<br>
+                        我們引入絕對的「定律」，以<strong>金</strong>的剛硬與嚴謹進行代碼審查...<br>
+                        訊息正如<strong>水</strong>的柔性與深度，在異步傳輸中不斷循環...
+                    </blockquote>
+                </div>
+            </div>
+
+            <div class="demo-box terminal">
+                <div class="demo-header">Terminal Output (-u meow)</div>
+                <pre class="terminal-content">
+[PackRegistry] 載入成功: zh/meow
+✨ 成功掛載專屬語言包: zh/meow
+🔹 SemanticRegistry 特化命中 → lang=zh, profile=meow
+[5Q] 偵測到 NVIDIA GPU：CudaGpu { vram_mb: 6144, device_id: 0 }
+[5Q] 模型加載完成，準備進行意象推演...
+
+  ╔══════════════════════════════════════╗
+  ║ ☯ 5Q 喵嗚診斷書：讓你的 Prompt 變得 ║
+  ║             Purr-fect                ║
+  ╚══════════════════════════════════════╝
+  罐罐份量（肉量十足）：481 chars / 632 tokens
+
+  ── [Calibration] 喵星語意領地鬍鬚校準 ──
+  基準喵鳴：zh
+  肉球實感：38%  靈魂重量：62%
+
+  ── 關鍵字檢測 ──
+  拓樸 / Topology      █████████░  19/20 肥美
+  激發 / Activation    ████████░░  16/20 肥美
+  張量 / Tensor        ████░░░░░░   9/20 太瘦了
+  收斂 / Convergence   ███████░░░  14/20 還可以
+  連通 / Connectivity  ███████░░░  14/20 還可以
+
+  ── 最終評價 ──
+  total  ███████░░░  72/100  地盤大亂，快逃啊喵！
+
+  ── 踏踏語意分析 (Hybrid) ──
+  拓樸 / Topology      ███████░░░  15/20 還可以
+  激發 / Activation    ███████░░░  14/20 還可以
+  張量 / Tensor        ██████░░░░  13/20 還可以
+  收斂 / Convergence   ███████░░░  15/20 還可以
+  連通 / Connectivity  ███████░░░  15/20 還可以
+
+  ── 最終評價 ──
+  total  ███████░░░  72/100  良好調和，摸摸頭
+
+  ⏱ 效能報告 (Timing)
+    ├─ 關鍵字掃描: 4.51ms
+    ├─ 模型載入: 586.77ms
+    ├─ 語意推論: 726.28ms
+    └─ 總耗時: 812.16ms
+                </pre>
+            </div>
+        </div>
+    </section>
+
+</div>
+<section id="support" style="background: linear-gradient(145deg, #161b22, #0d1117); border: 1px dashed var(--accent); padding: 3rem; border-radius: 12px; margin-top: 2rem; text-align: center;">
+        <h2 style="border: none; padding: 0; margin-bottom: 1rem;">🧪 獨立研究與煉化資助</h2>
+        <p style="color: var(--text-primary); font-size: 1.1rem; max-width: 800px; margin: 0 auto 1.5rem;">
+            本專案是對 <strong>5Q (五德) 框架</strong> 的獨立探索與實踐。<br>
+            若此工具曾助您在 Prompt 構建中達成 <strong>「歸元」 (Balance)</strong>，歡迎資助這項持續進行的研究：
+        </p>
+
+        <div style="background: #000; padding: 1.5rem; border-radius: 8px; display: inline-block; border: 1px solid var(--border-color); margin-bottom: 1rem;">
+            <code style="color: var(--accent); font-family: var(--code-font); font-size: 0.95rem; word-break: break-all;">
+                SOL: <span id="sol-address">ori1oUjzoeKovtiyT74KjT2Xb8vSZTZEUsCV43uz1D5</span>
+            </code>
+        </div>
+    </section>
+
+</div> <footer>
+    <div class="container" style="border-top: 1px solid var(--border-color); padding-top: 2rem; text-align: left;">
+        <p>5Q Prompt Project | Designed by JEN, YUHSIEN @ Formosa, Taiwan</p>
+        <p>Copyright &copy; 2026 theContext RD Team. 版權所有。</p>
+        <p><small>theContext RD Team | Unauthorized copying or distribution is strictly prohibited.</small></p>
+    </div>
+</footer>
+</body>
+</html>
