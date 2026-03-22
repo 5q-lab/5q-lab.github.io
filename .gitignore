@@ -8,4 +8,5 @@ dist/
 
 # 開發素材，僅留本機
 references/
+docs/
 *.code-workspace
