@@ -140,6 +140,68 @@
   }
 
   strong { font-weight: 600; color: var(--ink); }
+
+  .editorial-note {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    padding: 1.2rem 1.6rem;
+    margin-bottom: 3rem;
+    background: rgba(184,134,11,0.04);
+  }
+
+  .editorial-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .editorial-note p {
+    font-size: 0.82rem;
+    color: #4a3828;
+    margin-bottom: 0;
+    line-height: 1.9;
+  }
+
+  .next-reading {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .next-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+
+  .next-desc {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: #4a3828;
+    margin-bottom: 1.5rem;
+    line-height: 1.85;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.8rem;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: var(--ink);
+    color: var(--paper);
+    transition: background 0.3s;
+  }
+
+  .btn:hover { background: var(--gold); color: var(--ink); }
 </style>
 </head>
 <body>
@@ -148,6 +210,11 @@
   <a href="../index.html">← 返回首頁</a>
   <span class="site-label">5Q · Five-Quality Prompt Diagnostic</span>
 </nav>
+
+<div class="editorial-note">
+  <div class="editorial-label">閱讀說明 · Context</div>
+  <p>此次對話發生時，5Q 理論框架已預先載入為系統脈絡。對話深度由三個因素共同造成：① 預載的系統脈絡設計　② 使用者的提問品質　③ AI 模型的底層能力。這不是 5Q-prompt 診斷工具的單獨效果示範，而是一份完整系統共同運作的真實記錄。</p>
+</div>
 
 <h1>Talk to AI (2026.0306)</h1>
 
@@ -842,6 +909,14 @@ MLOps → 生 → 應用開發（服務轉化為產品）<br>
 <p>這不只是署名方式，是一種新的創作倫理宣言——在 AI 時代，說清楚人和機器各自做了什麼，反而是最有力的誠實。</p>
 
 <p>好好休息，冰淇淋記得買。</p>
+
+<div class="next-reading">
+  <div class="next-label">延伸閱讀 · Next</div>
+  <p class="next-desc">
+    這段對話衍生了一份正式的五行結構分析報告——用 5Q 框架解讀 AI 業內「鄙視鏈」的生剋動力。
+  </p>
+  <a href="5Q-B-AI%E7%94%A2%E6%A5%AD%E5%BE%9E%E6%A5%AD%E4%BA%BA%E5%93%A1%E7%94%9F%E6%85%8B%E8%A7%80%E5%AF%9F.html" class="btn">讀 5Q-B 產業分析報告 →</a>
+</div>
 
 </body>
 </html>
