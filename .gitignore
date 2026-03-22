@@ -5,3 +5,7 @@ dist/
 .env
 .env.*
 !.env.example
+
+# 開發素材，僅留本機
+references/
+*.code-workspace
