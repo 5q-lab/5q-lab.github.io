@@ -4,87 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>理論摘要 — 五行煉化理論概念框架 · 5Q</title>
+<link rel="stylesheet" href="shared.css">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+Mono:wght@300;400&display=swap');
-
-  :root {
-    --ink: #1a1410;
-    --paper: #f5f0e8;
-    --gold: #b8860b;
-    --gold-light: #d4a843;
-    --mist: #8a9aaa;
-    --line: rgba(26,20,16,0.12);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Noto Serif TC', Georgia, serif;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0.4;
-  }
-
-  /* ── NAV ── */
-  .top-nav {
-    padding: 28px 8vw;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--line);
-  }
-  .top-nav a {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .top-nav a:hover { color: var(--ink); }
-  .site-label {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    color: var(--mist);
-  }
-
-  /* ── HERO ── */
+  /* ── THEORY HERO ── */
   .theory-hero {
     padding: 10vh 8vw 8vh;
-    max-width: 860px;
     border-bottom: 1px solid var(--line);
-  }
-
-  .eyebrow {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .eyebrow::after {
-    content: '';
-    width: 40px;
-    height: 1px;
-    background: var(--gold);
-    opacity: 0.5;
   }
 
   .theory-title {
@@ -97,54 +22,46 @@
 
   .theory-subtitle {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1rem, 1.8vw, 1.3rem);
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
     font-style: italic;
     font-weight: 300;
     color: var(--mist);
     margin-bottom: 2rem;
   }
 
-  .divider {
-    width: 48px;
-    height: 1px;
-    background: var(--gold);
-    opacity: 0.6;
-  }
-
-  /* ── BODY ── */
+  /* ── THEORY BODY ── */
   .theory-body {
     padding: 7vh 8vw 10vh;
-    max-width: 860px;
   }
 
   .section-label {
     font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.35em;
+    font-size: 0.76rem;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--gold);
     margin-bottom: 2rem;
   }
 
   p {
-    font-size: 1rem;
-    font-weight: 300;
+    font-size: 1.05rem;
+    font-weight: 400;
     line-height: 2;
-    color: #3a2e24;
+    color: var(--ink);
     margin-bottom: 1.4rem;
   }
 
   p strong { font-weight: 600; color: var(--ink); }
 
   .proposition-list {
-    margin: 1.5rem 0 1.5rem 0;
+    margin: 1.5rem 0;
     list-style: none;
   }
   .proposition-list li {
-    font-size: 1rem;
-    font-weight: 300;
+    font-size: 1.05rem;
+    font-weight: 400;
     line-height: 2;
-    color: #3a2e24;
+    color: var(--ink);
     padding-left: 2.2rem;
     position: relative;
     margin-bottom: 0.6rem;
@@ -155,13 +72,13 @@
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     color: var(--gold);
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
 
   .ellipsis-note {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: var(--mist);
     padding-left: 2.2rem;
     margin-bottom: 1.4rem;
@@ -176,101 +93,27 @@
 
   .keywords {
     font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.82rem;
     color: var(--mist);
     letter-spacing: 0.06em;
     line-height: 2;
   }
-  .keywords strong {
-    color: var(--gold);
-    font-weight: 400;
-  }
+  .keywords strong { color: var(--gold); font-weight: 400; }
 
-  /* ── STATEMENT BLOCK ── */
-  .stmt-block {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 8vh 8vw;
-    position: relative;
-    overflow: hidden;
-  }
-  .stmt-block::before {
-    content: '煉化';
-    position: absolute;
-    right: 5vw;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18vw;
-    font-weight: 900;
-    color: rgba(255,255,255,0.03);
-    line-height: 1;
-    pointer-events: none;
-  }
+  /* stmt-inner override for theory */
   .stmt-inner { max-width: 860px; }
   .stmt-en {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1rem, 1.4vw, 1.15rem);
-    font-style: italic;
-    font-weight: 300;
-    color: rgba(245,240,232,0.55);
-    line-height: 1.9;
-  }
-
-  /* ── FOOTER ── */
-  .footer {
-    padding: 6vh 8vw;
-    border-top: 1px solid var(--line);
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    gap: 2rem;
-  }
-  .footer-left .project {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.5rem;
-  }
-  .footer-left .author {
-    font-size: 1rem;
-    font-weight: 300;
-    color: var(--mist);
-  }
-  .footer-right {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    color: var(--mist);
-    text-align: right;
-    line-height: 1.9;
-  }
-
-  /* ── FADE IN ── */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .fade-in.visible {
-    opacity: 1;
-    transform: none;
+    color: rgba(245,240,232,0.65);
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
   }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     .theory-hero,
     .theory-body { padding-left: 6vw; padding-right: 6vw; }
-
-    .theory-title  { font-size: 2.2rem; }
-    .eyebrow       { font-size: 0.78rem; }
-    .section-label { font-size: 0.78rem; }
+    .theory-title { font-size: 2.2rem; }
     p, .proposition-list li, .ellipsis-note { font-size: 1rem; }
-    .keywords      { font-size: 0.8rem; }
-    .footer-right  { font-size: 0.72rem; }
-    .footer-left .project { font-size: 0.78rem; }
+    .keywords { font-size: 0.85rem; }
   }
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "aeae6a21b94f4bce8d92040eff941624"}'></script><!-- End Cloudflare Web Analytics -->

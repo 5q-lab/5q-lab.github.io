@@ -4,66 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>y賢 yhsien — 關於</title>
+<link rel="stylesheet" href="shared.css">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+Mono:wght@300;400&display=swap');
-
-  :root {
-    --ink: #1a1410;
-    --paper: #f5f0e8;
-    --gold: #b8860b;
-    --gold-light: #d4a843;
-    --mist: #8a9aaa;
-    --line: rgba(26,20,16,0.12);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Noto Serif TC', Georgia, serif;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0.4;
-  }
-
-  /* ── NAV ── */
-  .top-nav {
-    padding: 28px 8vw;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .top-nav a {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .top-nav a:hover { color: var(--ink); }
-
-  .site-label {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    color: var(--mist);
-  }
-
-  /* ── HERO ── */
+  /* ── ABOUT HERO ── */
   .about-hero {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -75,25 +18,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-  }
-
-  .eyebrow {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .eyebrow::after {
-    content: '';
-    width: 40px;
-    height: 1px;
-    background: var(--gold);
-    opacity: 0.5;
   }
 
   .name-zh {
@@ -114,23 +38,15 @@
     letter-spacing: 0.08em;
   }
 
-  .divider {
-    width: 48px;
-    height: 1px;
-    background: var(--gold);
-    opacity: 0.6;
-    margin-bottom: 2.5rem;
-  }
-
   .role-list {
     list-style: none;
     margin-bottom: 3rem;
   }
 
   .role-list li {
-    font-size: 1rem;
-    font-weight: 300;
-    color: #3a2e24;
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--ink);
     line-height: 2;
     padding-left: 1.2rem;
     position: relative;
@@ -147,7 +63,7 @@
     border-left: 2px solid var(--gold);
     padding: 1rem 0 1rem 1.5rem;
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
     font-style: italic;
     font-weight: 300;
     color: #4a3828;
@@ -156,13 +72,13 @@
 
   .creation-stmt em {
     display: block;
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     color: var(--mist);
     margin-top: 0.6rem;
     font-style: italic;
   }
 
-  /* ── PORTRAIT SIDE ── */
+  /* ── PORTRAIT ── */
   .hero-portrait {
     background: var(--ink);
     display: flex;
@@ -194,21 +110,12 @@
     mix-blend-mode: luminosity;
     opacity: 0.88;
     filter: contrast(1.05);
+    border-radius: 12px;
   }
 
   /* ── ABOUT BODY ── */
   .about-body {
     padding: 10vh 8vw;
-    max-width: 900px;
-  }
-
-  .section-label {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1rem;
   }
 
   .section-title {
@@ -219,10 +126,10 @@
   }
 
   .body-text {
-    font-size: 1rem;
-    font-weight: 300;
+    font-size: 1.05rem;
+    font-weight: 400;
     line-height: 2;
-    color: #3a2e24;
+    color: var(--ink);
     margin-bottom: 1.5rem;
   }
 
@@ -231,121 +138,19 @@
     color: var(--ink);
   }
 
-  /* ── STATEMENT BLOCK ── */
-  .stmt-block {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 8vh 8vw;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .stmt-block::before {
-    content: '煉化';
-    position: absolute;
-    right: 5vw;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18vw;
-    font-weight: 900;
-    color: rgba(255,255,255,0.03);
-    line-height: 1;
-    pointer-events: none;
-  }
-
-  .stmt-inner {
-    max-width: 820px;
-  }
-
-  .stmt-zh {
-    font-size: clamp(1rem, 1.6vw, 1.25rem);
-    font-weight: 300;
-    line-height: 2.2;
-    color: rgba(245,240,232,0.85);
-    margin-bottom: 1.5rem;
-  }
-
-  .stmt-en {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1rem, 1.4vw, 1.1rem);
-    font-style: italic;
-    font-weight: 300;
-    color: rgba(245,240,232,0.4);
-    line-height: 1.9;
-  }
-
-  /* ── FOOTER ── */
-  .footer {
-    padding: 6vh 8vw;
-    border-top: 1px solid var(--line);
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    gap: 2rem;
-  }
-
-  .footer-left .project {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.5rem;
-  }
-
-  .footer-left .author {
-    font-size: 0.9rem;
-    font-weight: 300;
-    color: var(--mist);
-  }
-
-  .footer-right {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    color: var(--mist);
-    text-align: right;
-    line-height: 1.9;
-  }
-
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
-    /* layout */
     .about-hero { grid-template-columns: 1fr; }
     .stmt-block { padding: 6vh 6vw; }
     .stmt-inner { max-width: none; }
-    .hero-portrait { min-height: 50vh; align-items: center; }
+    .hero-portrait { min-height: 50vh; }
     .portrait-img { width: 60%; }
-
-    /* headline */
     .name-zh  { font-size: 3.2rem; }
     .name-en  { font-size: 1.2rem; }
-
-    /* small labels */
-    .eyebrow        { font-size: 0.78rem; }
-    .section-label  { font-size: 0.78rem; }
-
-    /* section & statement */
     .section-title  { font-size: 1.8rem; }
     .stmt-zh        { font-size: 1.1rem; }
-    .stmt-en        { font-size: 1rem; }
     .creation-stmt  { font-size: 1rem; }
-    .creation-stmt em { font-size: 0.88rem; }
-
-    /* footer */
-    .footer-left .project { font-size: 0.78rem; }
-  }
-
-  /* ── FADE IN ── */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .fade-in.visible {
-    opacity: 1;
-    transform: none;
+    .footer-left .project { font-size: 0.82rem; }
   }
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "aeae6a21b94f4bce8d92040eff941624"}'></script><!-- End Cloudflare Web Analytics -->
@@ -417,12 +222,14 @@
 <section class="stmt-block fade-in">
   <div class="stmt-inner">
     <p class="stmt-zh">
-      「調整的不是模型。調整的是你。」<br><br>
-      ——這一句話，是 5Q 的核心，也是 y賢做這件事的理由。
+      「夫物芸芸，各復歸其根。」——《道德經》第十六章<br><br>
+      五德本具，人人皆然。<br>
+      煉化，是找回那條回去的路。
     </p>
     <p class="stmt-en">
-      "It is not the model that needs adjusting. It is you."<br><br>
-      This is the core of 5Q, and the reason this work exists.
+      "All things return to their root." — Tao Te Ching, XVI<br><br>
+      The five qualities are already within you.<br>
+      Cultivation is simply the way back.
     </p>
   </div>
 </section>

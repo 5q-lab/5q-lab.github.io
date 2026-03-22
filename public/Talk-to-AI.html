@@ -4,222 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Talk to AI (2026.0306) — 對話原文</title>
+<link rel="stylesheet" href="../shared.css">
+<link rel="stylesheet" href="article.css">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+Mono:wght@300;400&display=swap');
-
-  :root {
-    --ink: #1a1410;
-    --paper: #f5f0e8;
-    --gold: #b8860b;
-    --gold-light: #d4a843;
-    --mist: #8a9aaa;
-    --line: rgba(26,20,16,0.12);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Noto Serif TC', Georgia, serif;
-    line-height: 1.85;
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 0 24px 80px;
-  }
-
-  /* ── NAV ── */
-  .top-nav {
-    padding: 24px 0 20px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 5vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .top-nav a {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    text-decoration: none;
-  }
-  .top-nav a:hover { color: var(--ink); }
-  .top-nav .site-label {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    color: var(--mist);
-  }
-
-  /* ── HEADING ── */
-  h1 {
-    font-size: clamp(1.6rem, 3vw, 2.4rem);
-    font-weight: 900;
-    line-height: 1.25;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.01em;
-  }
-  h1::after {
-    content: '';
-    display: block;
-    width: 48px;
-    height: 2px;
-    background: var(--gold);
-    margin-top: 1.2rem;
-    opacity: 0.7;
-  }
-
-  /* ── USER MESSAGES (h2) ── */
+  /* ── 頁面唯一：對話格式 ── */
+  /* h2 = 使用者訊息，h3 = AI 回應 */
   h2 {
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 600;
     margin: 3rem 0 1rem;
     padding: 0.8rem 1.2rem;
     background: rgba(184,134,11,0.07);
     border-left: 3px solid var(--gold);
     line-height: 1.6;
-    color: #3a2e24;
+    color: var(--ink);
   }
-
-  /* ── AI RESPONSES (h3) ── */
   h3 {
     font-weight: 600;
     font-style: italic;
     color: var(--mist);
     margin: 1.5rem 0 0.8rem;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-  }
-
-  p { margin-bottom: 1rem; font-size: 1rem; font-weight: 300; color: #3a2e24; }
-
-  blockquote {
-    border-left: 2px solid var(--gold);
-    margin: 1.5rem 0;
-    padding: 0.8rem 0 0.8rem 1.5rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1rem;
-    color: #4a3828;
-    line-height: 1.75;
-  }
-
-  hr {
-    border: 0;
-    border-top: 1px solid var(--line);
-    margin: 2rem 0;
-  }
-
-  ul, ol { margin: 0 0 1rem 1.5rem; }
-  li { margin-bottom: 0.5rem; font-size: 1rem; font-weight: 300; color: #3a2e24; }
-
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 1.5rem 0;
-    font-size: 0.85rem;
-  }
-  th, td { border: 1px solid var(--line); padding: 10px 14px; text-align: left; }
-  th {
-    background: rgba(26,20,16,0.06);
-    font-weight: 600;
-    font-size: 0.8rem;
-    font-family: 'Noto Sans Mono', monospace;
-    letter-spacing: 0.05em;
-  }
-
-  code {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.78rem;
-    background: rgba(26,20,16,0.06);
-    padding: 2px 6px;
-    color: var(--ink);
-  }
-
-  strong { font-weight: 600; color: var(--ink); }
-
-  .editorial-note {
-    border: 1px solid var(--line);
-    border-left: 3px solid var(--gold);
-    padding: 1.2rem 1.6rem;
-    margin-bottom: 3rem;
-    background: rgba(184,134,11,0.04);
-  }
-
-  .editorial-label {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.6rem;
-  }
-
-  .editorial-note p {
-    font-size: 0.82rem;
-    color: #4a3828;
-    margin-bottom: 0;
-    line-height: 1.9;
-  }
-
-  .next-reading {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--line);
-  }
-
-  .next-label {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.2rem;
-  }
-
-  .next-desc {
-    font-size: 0.88rem;
-    font-weight: 300;
-    color: #4a3828;
-    margin-bottom: 1.5rem;
-    line-height: 1.85;
-  }
-
-  .btn {
-    display: inline-block;
-    padding: 0.75rem 1.8rem;
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-decoration: none;
-    background: var(--ink);
-    color: var(--paper);
-    transition: background 0.3s;
-  }
-
-  .btn:hover { background: var(--gold); color: var(--ink); }
-
-  @media (max-width: 768px) {
-    body { padding: 0 16px 60px; }
-
-    h1 { font-size: 2.2rem; }
-    h2 { font-size: 1.1rem; }
-    h3 { font-size: 1rem; }
-    p  { font-size: 1rem; }
-    li { font-size: 1rem; }
-    blockquote { font-size: 1rem; }
-
-    .top-nav a,
-    .top-nav .site-label { font-size: 0.78rem; }
-
-    table { font-size: 0.9rem; }
-    th    { font-size: 0.82rem; }
-    code  { font-size: 0.82rem; }
-
-    .editorial-note p { font-size: 1rem; }
+    font-size: 1.05rem;
   }
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "aeae6a21b94f4bce8d92040eff941624"}'></script><!-- End Cloudflare Web Analytics -->
