@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <script>
   (function(){
+    if (location.search.indexOf('hl=zh') !== -1) return;
     var l = (navigator.language || navigator.userLanguage || '').toLowerCase();
     if (!l.startsWith('zh')) window.location.replace('index_en.html');
   })();
