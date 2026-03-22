@@ -668,6 +668,7 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
+    /* layout */
     .hero { grid-template-columns: 1fr; }
     .hero-right { min-height: 40vh; }
     .insights-grid { grid-template-columns: 1fr; gap: 3rem; }
@@ -675,6 +676,42 @@
     .five-item:nth-child(5) { border-right: none; }
     .donate-grid { grid-template-columns: 1fr; gap: 1.5rem; }
     .footer { flex-direction: column; align-items: flex-start; }
+
+    /* hero headline & body */
+    .headline-zh  { font-size: 2.6rem; }
+    .headline-en  { font-size: 1.15rem; }
+    .core-claim   { font-size: 1.05rem; }
+    .pull-quote   { font-size: 1.15rem; }
+
+    /* section titles */
+    .section-title   { font-size: 1.9rem; }
+    .dialogue-title  { font-size: 1.8rem; }
+
+    /* small UI labels: bump sub-0.8rem to ≥0.8rem */
+    .eyebrow                    { font-size: 0.82rem; }
+    .btn                        { font-size: 0.82rem; }
+    .section-label              { font-size: 0.78rem; }
+    .dialogue-label             { font-size: 0.78rem; }
+    .terminal-title             { font-size: 0.72rem; }
+    .terminal-body              { font-size: 0.82rem; }
+    .demo-note                  { font-size: 0.78rem; }
+    .donate-label               { font-size: 0.78rem; }
+    .donate-addr                { font-size: 0.78rem; }
+    .donate-note                { font-size: 0.88rem; }
+    .footer-left .project       { font-size: 0.78rem; }
+    .footer-right               { font-size: 0.72rem; }
+    .footer-right .tagline      { font-size: 0.88rem; }
+    .dialogue-excerpt .speaker  { font-size: 0.78rem; }
+
+    /* body-level text: sub-1rem → 1rem */
+    .insight-title      { font-size: 1.15rem; }
+    .insight-body       { font-size: 1rem; }
+    .dialogue-excerpt p { font-size: 1rem; }
+    .dialogue-desc      { font-size: 1rem; }
+    .five-en            { font-size: 1rem; }
+    .five-desc          { font-size: 1rem; }
+    .donate-desc        { font-size: 1rem; }
+    .footer-left .author { font-size: 1rem; }
   }
 
   /* ── FADE IN ── */
@@ -722,6 +759,7 @@
     <div class="cta-row">
       <a href="#dialogue" class="btn btn-primary">看真實對話示範</a>
       <a href="#five-qualities" class="btn btn-ghost">了解五德框架</a>
+      <a href="theory.html" class="btn btn-ghost">理論摘要</a>
     </div>
   </div>
 
@@ -846,7 +884,7 @@
   Token 長度：<span class="t-gold">481 chars</span>
 
   <span class="t-dim">── [語系校準] 語意基準錨點 ──────────────────────────────</span>
-  語系基準：<span class="t-gold">zh</span>　靜態權重：40%　語意權重：60%
+  語系基準：<span class="t-gold">zh</span>　靜態權重：38.1966%　語意權重：61.8034%
 
   <span class="t-dim">── [萃取] 指令特徵識別 ──</span>
 
@@ -868,6 +906,75 @@
   </div>
 
   <p class="demo-note">以上為真實工具輸出，承載（土德）不足 → 73分。補充背景後通常可提升至 85+。</p>
+
+  <div class="terminal-window" style="margin-top:3rem;">
+    <div class="terminal-bar">
+      <div class="terminal-dot"></div>
+      <div class="terminal-dot"></div>
+      <div class="terminal-dot"></div>
+      <span class="terminal-title">5q — maltese style</span>
+    </div>
+    <div class="terminal-body"><span class="t-cmd">$ ./run.sh --bin onnx --file data/test_article-2.md -u ori</span>
+<span class="t-dim">[PackRegistry] 載入成功: zh/meow ← /home/yhsien/.local/share/5q/packs/animal_meow_zh_v1.0.0.5qpack</span>
+<span class="t-dim">[PackRegistry] 載入成功: zh/vegan ← /home/yhsien/.local/share/5q/packs/concepts_vegan_zh_v1.0.0.5qpack</span>
+<span class="t-good">✅ SemanticRegistry 已註冊 7 組 (lang, profile) 特化</span>
+<span class="t-gold">🔹 SemanticRegistry 特化命中 → lang=zh, profile=ori</span>
+<span class="t-dim">   └─ 特化權重 (DEFAULT): 關鍵字 0.3, 語意 0.7</span>
+<span class="t-dim">[5Q] 偵測到 NVIDIA GPU：CudaGpu { vram_mb: 6144, device_id: 0 }</span>
+<span class="t-dim">[5Q] 選用：models/all-MiniLM-L12-v2/onnx/model.onnx (F16 precision)</span>
+<span class="t-dim">[5Q] 載入 ORT 模型：models/all-MiniLM-L12-v2/onnx/model.onnx</span>
+<span class="t-good">✅ cuDNN dylib 預載完成 &nbsp; ✅ preload libonnxruntime_providers_shared.so</span>
+<span class="t-good">✅ 已向 ORT 註冊 CUDA 執行提供者（顯存無上限，按需分配）</span>
+<span class="t-dim">[5Q] 模型加載完成，準備進行意象推演... &nbsp; 載入 Tokenizer / 模型家族：MiniLM</span>
+
+<span class="t-box">  ╔══════════════════════════════════════╗</span>
+<span class="t-box">  ║</span> <span class="t-head">🐾 5Q 馬爾濟斯診斷書：讓你的 Prompt</span>  <span class="t-box">║</span>
+<span class="t-box">  ║             蓬蓬又汪汪！             ║</span>
+<span class="t-box">  ╚══════════════════════════════════════╝</span>
+  零食份量（骨頭大不大顆）：<span class="t-gold">686 chars / 886 tokens</span>
+
+  <span class="t-dim">── 鼻鼻錨點校準：嗅出語系基準 ──────────────────────────</span>
+  嗅到語系：<span class="t-gold">zh</span>　靜態骨頭比重：38%　語意嗅嗅比重：62%
+
+  <span class="t-dim">── 鼻鼻關鍵字巡邏 ──</span>
+
+  拓樸　/ Topology          <span class="t-good">█████████░</span>  19/20　<span class="t-good">毛茸茸飽足</span>
+  激發　/ Activation        <span class="t-bad">████░░░░░░</span>   <span class="t-bad">8/20　瘦巴巴汪</span>
+  張量　/ Tensor            <span class="t-warn">███████░░░</span>  14/20　<span class="t-warn">還可以汪</span>
+  收斂　/ Convergence       <span class="t-good">█████████░</span>  19/20　<span class="t-good">毛茸茸飽足</span>
+  連通　/ Connectivity      <span class="t-warn">███████░░░</span>  14/20　<span class="t-warn">還可以汪</span>
+
+  <span class="t-dim">── 最終汪汪評價 ────────────────────────────</span>
+  total  <span class="t-warn">███████░░░</span>  <span class="t-warn">74/100　地盤大亂，四腳朝天快逃啊汪！</span>
+
+  <span class="t-dim">── 訓狗師指南 (調和建議) ─────────────────────</span>
+  <span class="t-gold">[ · 建議]</span> 火德調和：大聲汪出來！說清楚你要的格式跟語氣，
+           讓意圖像玩具球一樣清楚地滾出來。
+
+  <span class="t-dim">── 打滾語意分析 (Hybrid) ──</span>
+
+  拓樸　/ Topology          <span class="t-warn">███████░░░</span>  15/20　<span class="t-warn">還可以汪</span>
+  激發　/ Activation        <span class="t-warn">█████░░░░░</span>  11/20　<span class="t-warn">還可以汪</span>
+  張量　/ Tensor            <span class="t-warn">███████░░░</span>  15/20　<span class="t-warn">還可以汪</span>
+  收斂　/ Convergence       <span class="t-warn">████████░░</span>  16/20　<span class="t-warn">還可以汪</span>
+  連通　/ Connectivity      <span class="t-warn">██████░░░░</span>  13/20　<span class="t-warn">還可以汪</span>
+
+  <span class="t-dim">── 搖尾巴能量傳遞細節 ──</span>
+  （目前很和諧，沒有毛孩需要補位，搖搖尾巴～）
+  初次餅乾評分: 70 → 飽嗝後的總分: <span class="t-warn">70</span>
+
+  <span class="t-dim">── 最終汪汪評價 ────────────────────────────</span>
+  total  <span class="t-warn">███████░░░</span>  <span class="t-warn">70/100　毛順順的，摸摸頭</span>
+
+  <span class="t-dim">⏱ 扒門速度報告 (Timing)</span>
+    ├─ 鼻鼻巡邏動作: <span class="t-gold">10.54ms</span>
+    ├─ 伸懶腰打哈欠 (模型載入): <span class="t-gold">591.77ms</span>
+    ├─ 盯著牆壁發呆推論: <span class="t-gold">742.21ms</span>
+    └─ 總共搖了幾下尾巴: <span class="t-gold">832.03ms</span>
+<span class="t-cmd">$</span> <span class="t-dim">_</span></div>
+  </div>
+
+  <p class="demo-note">多種輸出風格：專業版（pro）示範純關鍵字(regx)給分與建議；馬爾濟斯版（ori）用毛孩語氣包裝純關鍵字(regx)及語義相似(semantic)診斷邏輯。</p>
 </section>
 
 
@@ -910,10 +1017,10 @@
 ══════════════════════════════════════ -->
 <section class="section-donate fade-in" id="support">
   <div class="section-label">煉化資助 · Support the Research</div>
-  <h2 class="section-title">若此工具對你有所助益</h2>
+  <h2 class="section-title">若想對此研究有所支持</h2>
   <p class="donate-desc">
-    5Q 是獨立研究者的長期實踐，非商業產品。<br>
-    若這套框架讓你問出了更好的問題，歡迎支持後續研究與算力支出。
+    5Q 是獨立研究者的長期實踐，暫時非商業產品。<br>
+    若這套概念框架幫助你問出了更好的問題，歡迎支持後續研究與算力支出。
   </p>
 
   <div class="donate-grid">

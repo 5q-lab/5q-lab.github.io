@@ -128,7 +128,7 @@
   }
 
   .role-list li {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 300;
     color: #3a2e24;
     line-height: 2;
@@ -219,7 +219,7 @@
   }
 
   .body-text {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 300;
     line-height: 2;
     color: #3a2e24;
@@ -267,7 +267,7 @@
 
   .stmt-en {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
     font-style: italic;
     font-weight: 300;
     color: rgba(245,240,232,0.4);
@@ -311,9 +311,28 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
+    /* layout */
     .about-hero { grid-template-columns: 1fr; }
     .hero-portrait { min-height: 50vh; align-items: center; }
     .portrait-img { width: 60%; }
+
+    /* headline */
+    .name-zh  { font-size: 3.2rem; }
+    .name-en  { font-size: 1.2rem; }
+
+    /* small labels */
+    .eyebrow        { font-size: 0.78rem; }
+    .section-label  { font-size: 0.78rem; }
+
+    /* section & statement */
+    .section-title  { font-size: 1.8rem; }
+    .stmt-zh        { font-size: 1.1rem; }
+    .stmt-en        { font-size: 1rem; }
+    .creation-stmt  { font-size: 1rem; }
+    .creation-stmt em { font-size: 0.88rem; }
+
+    /* footer */
+    .footer-left .project { font-size: 0.78rem; }
   }
 
   /* ── FADE IN ── */

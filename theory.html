@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>理論摘要 — 五行煉化理論概念框架 · 5Q</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+Mono:wght@300;400&display=swap');
+
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --gold: #b8860b;
+    --gold-light: #d4a843;
+    --mist: #8a9aaa;
+    --line: rgba(26,20,16,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif TC', Georgia, serif;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  .top-nav {
+    padding: 28px 8vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+  }
+  .top-nav a {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .top-nav a:hover { color: var(--ink); }
+  .site-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    color: var(--mist);
+  }
+
+  /* ── HERO ── */
+  .theory-hero {
+    padding: 10vh 8vw 8vh;
+    max-width: 860px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .eyebrow::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .theory-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+  }
+
+  .theory-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--mist);
+    margin-bottom: 2rem;
+  }
+
+  .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+
+  /* ── BODY ── */
+  .theory-body {
+    padding: 7vh 8vw 10vh;
+    max-width: 860px;
+  }
+
+  .section-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+  }
+
+  p {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 2;
+    color: #3a2e24;
+    margin-bottom: 1.4rem;
+  }
+
+  p strong { font-weight: 600; color: var(--ink); }
+
+  .proposition-list {
+    margin: 1.5rem 0 1.5rem 0;
+    list-style: none;
+  }
+  .proposition-list li {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 2;
+    color: #3a2e24;
+    padding-left: 2.2rem;
+    position: relative;
+    margin-bottom: 0.6rem;
+  }
+  .proposition-list li .num {
+    position: absolute;
+    left: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-size: 1rem;
+  }
+
+  .ellipsis-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--mist);
+    padding-left: 2.2rem;
+    margin-bottom: 1.4rem;
+    line-height: 1.9;
+  }
+
+  hr.section-divider {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 5vh 0;
+  }
+
+  .keywords {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--mist);
+    letter-spacing: 0.06em;
+    line-height: 2;
+  }
+  .keywords strong {
+    color: var(--gold);
+    font-weight: 400;
+  }
+
+  /* ── STATEMENT BLOCK ── */
+  .stmt-block {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8vh 8vw;
+    position: relative;
+    overflow: hidden;
+  }
+  .stmt-block::before {
+    content: '煉化';
+    position: absolute;
+    right: 5vw;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18vw;
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .stmt-inner { max-width: 720px; }
+  .stmt-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.9;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 6vh 8vw;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .footer-left .project {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .footer-left .author {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--mist);
+  }
+  .footer-right {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--mist);
+    text-align: right;
+    line-height: 1.9;
+  }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .theory-hero,
+    .theory-body { padding-left: 6vw; padding-right: 6vw; }
+
+    .theory-title  { font-size: 2.2rem; }
+    .eyebrow       { font-size: 0.78rem; }
+    .section-label { font-size: 0.78rem; }
+    p, .proposition-list li, .ellipsis-note { font-size: 1rem; }
+    .keywords      { font-size: 0.8rem; }
+    .footer-right  { font-size: 0.72rem; }
+    .footer-left .project { font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="top-nav">
+  <a href="index.html">← 返回首頁</a>
+  <span class="site-label">5Q · Five-Quality Prompt Diagnostic</span>
+</nav>
+
+
+<!-- ── HERO ── -->
+<div class="theory-hero fade-in">
+  <div class="eyebrow">理論摘要 · Theory Abstract</div>
+  <h1 class="theory-title">五行煉化理論概念框架</h1>
+  <p class="theory-subtitle">5Q Conceptual Framework — 5Q-0 v1.7</p>
+  <div class="divider"></div>
+</div>
+
+
+<!-- ── BODY ── -->
+<section class="theory-body fade-in">
+
+  <div class="section-label">中文摘要</div>
+
+  <p>
+    本文提出「五行煉化理論概念框架」，以中國傳統哲學五行思想為分析工具，建構一套普遍適用的存在分析框架。「行」即「德」，兩者皆指內在運行的品質與本性，英文對應為 <strong>quality</strong>——複合屬性，而非原子性元素。本框架以「<strong>界、象、質、律、流</strong>」作為五德的現代命名，對應木、火、土、金、水，分別描述任何存在實體同時具備的五種內在維度：<strong>界</strong>（定界・它界何域）、<strong>象</strong>（顯化・它現何象）、<strong>質</strong>（承載・它含何物）、<strong>律</strong>（立律・它循何則）、<strong>流</strong>（連結・它連何脈）。五德被詮釋為任何存在實體在任意時刻同時具備的五種存在形態，而非線性處理步驟。
+  </p>
+
+  <p>本框架的核心命題有七：</p>
+
+  <ul class="proposition-list">
+    <li><span class="num">其一，</span>任何存在實體皆同時具備五德，煉化過程改變的是五德的比重，而非從一個步驟移動到另一個步驟。</li>
+    <li><span class="num">其二，</span>五德相生（Sheng Cycle）描述形態之間的促進動力，木→火→土→金→水→木形成循環。</li>
+    <li><span class="num">其三，</span>五德以隔位制約的幾何結構形成相剋（Ke Cycle），提供任何存在系統的失衡診斷框架。</li>
+  </ul>
+
+  <p class="ellipsis-note">……（其餘命題涉及更深層的結構機制，尚在整理發展中。）</p>
+
+  <p>
+    本框架在哲學上可為本體論設計、系統診斷、知識完整性判定提供跨域的共同語言。
+  </p>
+
+  <div class="keywords">
+    <strong>關鍵詞：</strong>五行、五德、煉化、相生相剋、本體論
+  </div>
+
+
+  <hr class="section-divider">
+
+
+  <div class="section-label">Abstract</div>
+
+  <p>
+    This paper proposes the <strong>5Q Conceptual Framework</strong>, reinterpreting the classical Chinese philosophical concept of Wuxing as a domain-agnostic ontological analysis tool. The term <em>xing</em> (行) and <em>de</em> (德) are treated as synonymous, both denoting an intrinsic quality of dynamic character—rendered in English as <strong>quality</strong>: a composite, layered attribute rather than an atomic element. Wood (boundary-setting), Fire (manifestation), Earth (substrate), Metal (regulation), and Water (circulation) are reconceptualized as five simultaneous ontological qualities of any entity, rather than sequential processing steps.
+  </p>
+
+  <p>
+    Seven core propositions are advanced, of which three are outlined here: (1) any entity simultaneously possesses all five qualities; (2) the generative cycle (Sheng) describes mutual promotion among qualities; (3) the controlling cycle (Ke) provides an intrinsic diagnostic structure for systemic imbalance via alternate-position restraint. … (Further propositions addressing deeper structural mechanisms remain in development.)
+  </p>
+
+  <p>
+    The framework offers a shared philosophical vocabulary applicable across ontological design, system diagnosis, and knowledge completeness assessment in any domain.
+  </p>
+
+</section>
+
+
+<!-- ── STATEMENT BLOCK ── -->
+<section class="stmt-block fade-in">
+  <div class="stmt-inner">
+    <p class="stmt-en">
+      "The five qualities are not sequential steps.<br>
+      They are simultaneous dimensions of any existing entity,<br>
+      present at every moment, in every scale."<br><br>
+      — 5Q-0 Conceptual Framework
+    </p>
+  </div>
+</section>
+
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer-left">
+    <div class="project">5Q — Five-Quality Prompt Diagnostic Tool</div>
+    <div class="author">y賢（yhsien）&nbsp;·&nbsp; 獨立研究者・跨學科理論建構</div>
+  </div>
+  <div class="footer-right">
+    Copyright © 2026 JEN, YUHSIEN. 版權所有。<br>
+    嚴禁未經授權之散佈。
+  </div>
+</footer>
+
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
