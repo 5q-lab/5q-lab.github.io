@@ -1,397 +1,922 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5Q Prompt 診斷工具 | 官方網站 - theContext RD Team</title>
-    <style>
-        :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --text-primary: #c9d1d9;
-            --text-secondary: #8b949e;
-            --accent: #2ea44f; /* 成功綠，也象徵木德 */
-            --border-color: #30363d;
-            --code-font: 'Fira Code', 'Courier New', monospace;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5Q — 五行煉化提示詞診斷</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+Mono:wght@300;400&display=swap');
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --gold: #b8860b;
+    --gold-light: #d4a843;
+    --rust: #8b3a2a;
+    --mist: #8a9aaa;
+    --line: rgba(26,20,16,0.12);
+  }
 
-        a { color: var(--accent); text-decoration: none; }
-        a:hover { text-decoration: underline; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+  html { scroll-behavior: smooth; }
 
-        header {
-            text-align: center;
-            padding: 4rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif TC', 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+  }
 
-        .logo-text {
-            font-size: 3rem;
-            font-weight: 800;
-            margin: 0;
-            background: linear-gradient(180deg, #fff, #8b949e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
 
-        .subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-top: 0.5rem;
-        }
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
 
-        .badge {
-            display: inline-block;
-            padding: 2px 10px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border-radius: 20px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            margin-top: 1rem;
-        }
+  .hero-left {
+    padding: 8vh 6vw 8vh 8vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
 
-        section {
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
+  .hero-right {
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-        h2 {
-            font-size: 2rem;
-            border-left: 4px solid var(--accent);
-            padding-left: 1rem;
-            margin-bottom: 2rem;
-        }
+  /* Five elements decorative circle */
+  .wuxing-diagram {
+    position: relative;
+    width: 340px;
+    height: 340px;
+  }
 
-        /* 五德架構樣式 */
-        .five-quality-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
+  .wuxing-diagram svg {
+    width: 100%;
+    height: 100%;
+    animation: slow-spin 60s linear infinite;
+  }
 
-        .quality-card {
-            background-color: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            text-align: center;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+  @keyframes slow-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
 
-        .quality-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 12px rgba(46, 164, 79, 0.15);
-            border-color: var(--accent);
-        }
+  .wuxing-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: slow-spin 60s linear infinite reverse;
+  }
 
-        .quality-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
-        .quality-name { font-size: 1.25rem; font-weight: 700; color: #fff; }
-        .quality-desc { font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.5rem; }
+  .wuxing-center .cn {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--gold-light);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
 
-        /* 功能特點樣式 */
-        .features-list {
-            list-style: none;
-            padding: 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
+  .wuxing-center .en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    color: var(--mist);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+  }
 
-        .features-list li {
-            background-color: var(--card-bg);
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            position: relative;
-        }
+  /* ── EYEBROW ── */
+  .eyebrow {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 
-        .features-list li::before {
-            content: "✓";
-            color: var(--accent);
-            font-weight: bold;
-            margin-right: 10px;
-        }
+  .eyebrow::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
 
-        /* CLI 範例樣式 */
-        .code-block {
-            background-color: #000;
-            padding: 1.5rem;
-            border-radius: 8px;
-            font-family: var(--code-font);
-            font-size: 0.9rem;
-            overflow-x: auto;
-            border: 1px solid var(--border-color);
-            color: #d2a8ff; /* 類似 Rust string color */
-            position: relative;
-        }
+  /* ── HEADLINE ── */
+  .headline-zh {
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
 
-        .code-block::before {
-            content: "$";
-            color: var(--text-secondary);
-            margin-right: 10px;
-        }
+  .headline-zh em {
+    font-style: normal;
+    color: var(--gold);
+  }
 
-        .code-comment { color: var(--text-secondary); }
+  .headline-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 1.8vw, 1.35rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--mist);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+  }
 
-        footer {
-            text-align: center;
-            padding: 2rem 0;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
+  /* ── DIVIDER ── */
+  .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    margin-bottom: 2.5rem;
+    opacity: 0.6;
+  }
 
-        @media (max-width: 600px) {
-            .logo-text { font-size: 2.2rem; }
-            .subtitle { font-size: 1rem; }
-            .container { padding: 1rem; }
-        }
-        /* 實戰示範樣式 */
-        .demo-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
+  /* ── CORE CLAIM ── */
+  .core-claim {
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.9;
+    font-weight: 300;
+    color: #3a2e24;
+    margin-bottom: 2.5rem;
+  }
 
-        .demo-box {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
+  .core-claim strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
 
-        .demo-header {
-            background-color: var(--border-color);
-            padding: 8px 15px;
-            font-size: 0.8rem;
-            font-family: var(--code-font);
-            color: var(--text-secondary);
-            border-bottom: 1px solid var(--border-color);
-        }
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    border-left: 2px solid var(--gold);
+    padding: 1rem 0 1rem 1.5rem;
+    margin-bottom: 3rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #4a3828;
+  }
 
-        .demo-content {
-            padding: 1.5rem;
-            font-size: 0.9rem;
-            flex-grow: 1;
-        }
+  /* ── CTA ── */
+  .cta-row {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
 
-        .terminal {
-            background-color: #000;
-            border-color: #333;
-        }
+  .btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+  }
 
-        .terminal-content {
-            padding: 1rem;
-            font-family: var(--code-font);
-            font-size: 0.85rem;
-            color: #00ff00; /* 終端機綠 */
-            margin: 0;
-            white-space: pre-wrap;
-            overflow-y: auto;
-            max-height: 500px;
-        }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
 
-        blockquote {
-            border-left: 3px solid var(--accent);
-            margin: 0;
-            padding-left: 1rem;
-            color: var(--text-secondary);
-            font-style: italic;
-        }
+  .btn-primary:hover {
+    background: var(--gold);
+    color: var(--ink);
+  }
 
-        @media (max-width: 850px) {
-            .demo-wrapper { grid-template-columns: 1fr; }
-        }
-    </style>
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid rgba(26,20,16,0.3);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ── THREE INSIGHTS ── */
+  .section-insights {
+    padding: 10vh 8vw;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    font-weight: 900;
+    margin-bottom: 5vh;
+    line-height: 1.3;
+  }
+
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4vw;
+  }
+
+  .insight-card {
+    position: relative;
+    padding-top: 2rem;
+  }
+
+  .insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .insight-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--line);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .insight-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .insight-body {
+    font-size: 0.9rem;
+    line-height: 1.85;
+    font-weight: 300;
+    color: #4a3828;
+  }
+
+  .insight-body em {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ── DIALOGUE SECTION ── */
+  .section-dialogue {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10vh 8vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-dialogue::before {
+    content: '對話';
+    position: absolute;
+    right: 6vw;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18vw;
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .dialogue-inner {
+    max-width: 800px;
+  }
+
+  .dialogue-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1rem;
+  }
+
+  .dialogue-title {
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    font-weight: 900;
+    margin-bottom: 2rem;
+    line-height: 1.35;
+  }
+
+  .dialogue-excerpt {
+    border-left: 2px solid var(--gold);
+    padding: 1.2rem 0 1.2rem 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .dialogue-excerpt p {
+    font-size: 0.95rem;
+    line-height: 2;
+    font-weight: 300;
+    color: rgba(245,240,232,0.8);
+  }
+
+  .dialogue-excerpt p + p {
+    margin-top: 1rem;
+  }
+
+  .dialogue-excerpt .speaker {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .dialogue-desc {
+    font-size: 0.88rem;
+    line-height: 1.9;
+    color: rgba(245,240,232,0.6);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  /* ── FIVE QUALITIES TABLE ── */
+  .section-five {
+    padding: 10vh 8vw;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .five-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    margin-top: 4vh;
+  }
+
+  .five-item {
+    padding: 2.5rem 1.5rem;
+    border-right: 1px solid var(--line);
+    position: relative;
+    transition: background 0.3s ease;
+  }
+
+  .five-item:last-child { border-right: none; }
+  .five-item:hover { background: rgba(184,134,11,0.04); }
+
+  .five-char {
+    font-size: 2.8rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+
+  .five-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .five-desc {
+    font-size: 0.82rem;
+    line-height: 1.8;
+    font-weight: 300;
+    color: #4a3828;
+  }
+
+  /* colors per element */
+  .five-item:nth-child(1) .five-char { color: #2d5a27; }
+  .five-item:nth-child(2) .five-char { color: #8b2e1a; }
+  .five-item:nth-child(3) .five-char { color: #7a5c2e; }
+  .five-item:nth-child(4) .five-char { color: #3d5a6e; }
+  .five-item:nth-child(5) .five-char { color: #1a3d5a; }
+
+  /* ── DONATION ── */
+  .section-donate {
+    padding: 10vh 8vw;
+    background: rgba(184,134,11,0.03);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .donate-desc {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    font-weight: 300;
+    color: #4a3828;
+    margin-bottom: 5vh;
+    max-width: 600px;
+  }
+
+  .donate-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2vw;
+    max-width: 860px;
+    margin-bottom: 4vh;
+  }
+
+  .donate-card {
+    padding: 2rem 1.8rem;
+    border: 1px solid var(--line);
+    position: relative;
+  }
+
+  .donate-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .donate-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+
+  .donate-method {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+  }
+
+  .donate-addr {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.62rem;
+    color: #4a3828;
+    word-break: break-all;
+    line-height: 1.7;
+    display: block;
+  }
+
+  .donate-link {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(184,134,11,0.3);
+    transition: border-color 0.2s;
+  }
+
+  .donate-link:hover {
+    border-color: var(--gold);
+  }
+
+  .donate-note {
+    font-size: 0.78rem;
+    color: var(--mist);
+    line-height: 1.7;
+    margin-top: 0.6rem;
+    font-weight: 300;
+  }
+
+  .donate-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--mist);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 6vh 8vw;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .footer-left .project {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-left .author {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--mist);
+  }
+
+  .footer-right {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--mist);
+    text-align: right;
+    line-height: 1.9;
+  }
+
+  .footer-right .tagline {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 0.75rem;
+    font-style: italic;
+    color: rgba(26,20,16,0.4);
+    margin-bottom: 0.5rem;
+    display: block;
+    letter-spacing: 0.05em;
+    font-weight: 300;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { min-height: 40vh; }
+    .insights-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .five-grid { grid-template-columns: 1fr 1fr; }
+    .five-item:nth-child(5) { border-right: none; }
+    .donate-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .footer { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1 class="logo-text">5Q Prompt</h1>
-        <p class="subtitle">Five-Quality Prompt Diagnostic Tool</p>
-        <p class="subtitle">AI Prompt 深度診斷工貝 - 統一主入口</p>
-        <span class="badge">v0.3.1 (Multi-Backend)</span>
-    </header>
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">5Q &nbsp;·&nbsp; 五行煉化提示詞診斷</div>
 
-    <section id="about">
-        <h2>關於 5Q Prompt</h2>
-        <p>5Q Prompt 是一個基於東方傳統哲學<strong>「五德」（木、火、土、金、水）</strong>核心架構研發的 AI Prompt 深度診斷工具。它不單純依賴關鍵字匹配，更引入了先進的<strong>語意推論（Semantic Inference）</strong>技術，全方位評估 Prompt 的結構、創意、清晰度、精準度與流暢度。</p>
-        <p>本工具由 theContext RD 團隊開發，旨在幫助開發者與生成式 AI 使用者，精準標定 Prompt 訊號，優化生成結果。</p>
-    </section>
+    <h1 class="headline-zh">
+      你問的問題，<br>
+      決定了你能得到的<em>世界</em>
+    </h1>
+    <p class="headline-en">
+      The shape of your question<br>determines the depth of your answer.
+    </p>
 
-    <section id="architecture">
-        <h2>「五德」診斷架構</h2>
-        <p>我們將 Prompt 的不同維度映射至五行屬性，透過獨家的評分演算法與「相生邏輯（Sheng Cycle）」校準，計算出最優化的「混合分數」。</p>
-        
-        <div class="five-quality-grid">
-            <div class="quality-card" style="border-color: #98ff98;"> <span class="quality-icon">🪵</span>
-                <span class="quality-name">木 (Wood)</span>
-                <p class="quality-desc"><strong>結構與成長</strong><br>評估 Prompt 的層次、框架與擴展性。</p>
-            </div>
-            <div class="quality-card" style="border-color: #ff6b6b;"> <span class="quality-icon">🔥</span>
-                <span class="quality-name">火 (Fire)</span>
-                <p class="quality-desc"><strong>創意與張力</strong><br>評估 Prompt 的創新性、情感與表達強度。</p>
-            </div>
-            <div class="quality-card" style="border-color: #f4d03f;"> <span class="quality-icon">🧱</span>
-                <span class="quality-name">土 (Earth)</span>
-                <p class="quality-desc"><strong>清晰與落地</strong><br>評估 Prompt 的具體程度、背景與穩定性。</p>
-            </div>
-            <div class="quality-card" style="border-color: #e0e0e0;"> <span class="quality-icon">⚔️</span>
-                <span class="quality-name">金 (Metal)</span>
-                <p class="quality-desc"><strong>精準與剪裁</strong><br>評估 Prompt 的約束、邏輯與簡潔度。</p>
-            </div>
-            <div class="quality-card" style="border-color: #3498db;"> <span class="quality-icon">💧</span>
-                <span class="quality-name">水 (Water)</span>
-                <p class="quality-desc"><strong>流暢與應變</strong><br>評估 Prompt 的語句通順度與語境適應力。</p>
-            </div>
-        </div>
-        <p style="border: 1px solid var(--accent); padding: 1rem; border-radius: 8px; background: rgba(46, 164, 79, 0.05);">
-        🛡️ <strong>100% 本地推論：</strong> 所有的語意分析與向量計算皆在您的設備上完成。您的 Prompt 內容<strong>絕不上傳至任何雲端伺服器</strong>，確保最高等級的開發隱私與資料安全。
-        </p>
-    </section>
+    <div class="divider"></div>
 
-    <section id="features">
-        <h2>核心技術與功能</h2>
-        <ul class="features-list">
-            <li><strong>統一主入口 (Main Entry)：</strong> 整合多種推論引擎，靈活切換。</li>
-            <li><strong>高效能語意引擎：</strong> 支援 <a href="https://github.com/huggingface/candle" target="_blank">Candle</a> (Pure Rust)、ONNX Runtime (ORT) 與 Burn (WGPU)。</li>
-            <li><strong>混合診斷模式 (Hybrid)：</strong> 完美結合傳統 Regex 關鍵字匹配與現代向量語意分析。</li>
-            <li><strong>三方語言解耦：</strong> 獨立控制 UI 語言 (-l)、語意錨點 (-a) 與 Regex 字典 (-r)。</li>
-            <li><strong>5QD 守護進程 (Daemon)：</strong> 支援背景服務模式，大幅加速語意推論速度。</li>
-            <li><strong>完善的授權與語言包：</strong> 內建 Tier 授權系統，支援擴充語言風格包 (.5qpack)。</li>
-        </ul>
-    </section>
+    <p class="core-claim">
+      大多數人以為 AI 回答得不好，是<strong>模型的問題</strong>。<br>
+      5Q 說：那是你<strong>問問題的方式</strong>的問題。<br><br>
+      調整的不是模型。<strong>調整的是你。</strong>
+    </p>
 
-    <section id="cli">
-        <h2>快速開始 (CLI 範例)</h2>
-        <p>5Q Prompt 是一個強大的命令行工具 (CLI)。以下是一些基本的診斷命令：</p>
-        
-        <h3>1. 基礎hybrid診斷 (中文 UI + 中文字典)</h3>
-        <div class="code-block">
-            fiveq --prompt "請幫我寫一篇關於量子力學的科普文章"
-        </div>
+    <blockquote class="pull-quote">
+      「同樣的 AI，為什麼有人能聊出深度，<br>
+      有人只得到 <em>???? tokens used</em> ——and a bill coming？」
+    </blockquote>
 
-        <h3>2. 純語意分析模式 (Candle/ORT/Burn Backend)</h3>
-        <div class="code-block">
-            fiveq -m semantic --prompt "Write a short story about a robot learning to love."
-        </div>
-
-        <h3>3. 國際化解耦呼叫 (繁體 UI + 中文錨點 + 中文字典)</h3>
-        <div class="code-block">
-            fiveq -l hant -a zh -r zh --prompt "..."
-        </div>
-
-        <p style="margin-top: 1.5rem;"><small class="code-comment">💡 更多進階功能（如 <code>5q daemon start</code> 或 <code>5q pack install</code>），請參閱內建說明或開發文件。</small></p>
-    </section>
-    <section id="demo">
-        <h2>實戰示範：喵嗚特化診斷</h2>
-        <p>當 5Q 遇上 <code>animal_meow</code> 擴充包：我們對一份融合了「賽博封神」與「五德」概念的複雜 Prompt 進行了 ONNX 深度推論。</p>
-        
-        <div class="demo-wrapper">
-            <div class="demo-box">
-                <div class="demo-header">Input: data/test_prompt.md</div>
-                <div class="demo-content markdown-body">
-                    <strong>☯ 賽博封神：全自動化治理協議 ☯</strong><br><br>
-                    <blockquote>
-                        開發者必須建立嚴密的「定界」框架，像<strong>木</strong>一樣向外擴張生長...<br>
-                        系統的「顯化」層級需要如<strong>火</strong>般璀璨...<br>
-                        基礎架構中必須有如同<strong>土</strong>一般的堅實承載力...<br>
-                        我們引入絕對的「定律」，以<strong>金</strong>的剛硬與嚴謹進行代碼審查...<br>
-                        訊息正如<strong>水</strong>的柔性與深度，在異步傳輸中不斷循環...
-                    </blockquote>
-                </div>
-            </div>
-
-            <div class="demo-box terminal">
-                <div class="demo-header">Terminal Output (-u meow)</div>
-                <pre class="terminal-content">
-[PackRegistry] 載入成功: zh/meow
-✨ 成功掛載專屬語言包: zh/meow
-🔹 SemanticRegistry 特化命中 → lang=zh, profile=meow
-[5Q] 偵測到 NVIDIA GPU：CudaGpu { vram_mb: 6144, device_id: 0 }
-[5Q] 模型加載完成，準備進行意象推演...
-
-  ╔══════════════════════════════════════╗
-  ║ ☯ 5Q 喵嗚診斷書：讓你的 Prompt 變得 ║
-  ║             Purr-fect                ║
-  ╚══════════════════════════════════════╝
-  罐罐份量（肉量十足）：481 chars / 632 tokens
-
-  ── [Calibration] 喵星語意領地鬍鬚校準 ──
-  基準喵鳴：zh
-  肉球實感：38%  靈魂重量：62%
-
-  ── 關鍵字檢測 ──
-  拓樸 / Topology      █████████░  19/20 肥美
-  激發 / Activation    ████████░░  16/20 肥美
-  張量 / Tensor        ████░░░░░░   9/20 太瘦了
-  收斂 / Convergence   ███████░░░  14/20 還可以
-  連通 / Connectivity  ███████░░░  14/20 還可以
-
-  ── 最終評價 ──
-  total  ███████░░░  72/100  地盤大亂，快逃啊喵！
-
-  ── 踏踏語意分析 (Hybrid) ──
-  拓樸 / Topology      ███████░░░  15/20 還可以
-  激發 / Activation    ███████░░░  14/20 還可以
-  張量 / Tensor        ██████░░░░  13/20 還可以
-  收斂 / Convergence   ███████░░░  15/20 還可以
-  連通 / Connectivity  ███████░░░  15/20 還可以
-
-  ── 最終評價 ──
-  total  ███████░░░  72/100  良好調和，摸摸頭
-
-  ⏱ 效能報告 (Timing)
-    ├─ 關鍵字掃描: 4.51ms
-    ├─ 模型載入: 586.77ms
-    ├─ 語意推論: 726.28ms
-    └─ 總耗時: 812.16ms
-                </pre>
-            </div>
-        </div>
-    </section>
-
-</div>
-<section id="support" style="background: linear-gradient(145deg, #161b22, #0d1117); border: 1px dashed var(--accent); padding: 3rem; border-radius: 12px; margin-top: 2rem; text-align: center;">
-        <h2 style="border: none; padding: 0; margin-bottom: 1rem;">🧪 獨立研究與煉化資助</h2>
-        <p style="color: var(--text-primary); font-size: 1.1rem; max-width: 800px; margin: 0 auto 1.5rem;">
-            本專案是對 <strong>5Q (五德) 框架</strong> 的獨立探索與實踐。<br>
-            若此工具曾助您在 Prompt 構建中達成 <strong>「歸元」 (Balance)</strong>，歡迎資助這項持續進行的研究：
-        </p>
-
-        <div style="background: #000; padding: 1.5rem; border-radius: 8px; display: inline-block; border: 1px solid var(--border-color); margin-bottom: 1rem;">
-            <code style="color: var(--accent); font-family: var(--code-font); font-size: 0.95rem; word-break: break-all;">
-                SOL: <span id="sol-address">ori1oUjzoeKovtiyT74KjT2Xb8vSZTZEUsCV43uz1D5</span>
-            </code>
-        </div>
-    </section>
-
-</div> <footer>
-    <div class="container" style="border-top: 1px solid var(--border-color); padding-top: 2rem; text-align: left;">
-        <p>5Q Prompt Project | Designed by JEN, YUHSIEN @ Formosa, Taiwan</p>
-        <p>Copyright &copy; 2026 theContext RD Team. 版權所有。</p>
-        <p><small>theContext RD Team | Unauthorized copying or distribution is strictly prohibited.</small></p>
+    <div class="cta-row">
+      <a href="#dialogue" class="btn btn-primary">看真實對話示範</a>
+      <a href="#five-qualities" class="btn btn-ghost">了解五德框架</a>
     </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="wuxing-diagram">
+      <svg id="wuxing-svg" viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- filled by JS -->
+      </svg>
+      <div class="wuxing-center">
+        <span class="cn">五德</span>
+        <span class="en">Five Qualities</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     THREE INSIGHTS
+══════════════════════════════════════ -->
+<section class="section-insights fade-in">
+  <div class="section-label">核心洞察 · Core Insights</div>
+  <h2 class="section-title">為什麼提示詞的品質，<br>比模型的能力更重要</h2>
+
+  <div class="insights-grid">
+    <div class="insight-card fade-in">
+      <div class="insight-num">01</div>
+      <h3 class="insight-title">AI 的輸出品質，上限由你的輸入決定</h3>
+      <p class="insight-body">
+        模型沒有辦法猜出你真正想要什麼。
+        模糊的問題，得到的是模糊的答案——
+        不是因為 AI 不夠好，
+        而是因為<em>你的需求還沒有成形</em>。
+        5Q 的第一步，是讓你看見自己問題的形狀。
+      </p>
+    </div>
+
+    <div class="insight-card fade-in" style="transition-delay:0.15s">
+      <div class="insight-num">02</div>
+      <h3 class="insight-title">這不是 Prompt 技巧，這是認知診斷</h3>
+      <p class="insight-body">
+        市場上的 prompt 工具教你「怎麼寫」——
+        chain-of-thought、few-shot、system prompt。
+        這些都是<em>術</em>。
+        5Q 問的是更深的問題：
+        「為什麼你的思路本來就不清楚？」
+        技巧可以複製，診斷需要對照自己。
+      </p>
+    </div>
+
+    <div class="insight-card fade-in" style="transition-delay:0.3s">
+      <div class="insight-num">03</div>
+      <h3 class="insight-title">用久了，你不再需要它——這才是成功</h3>
+      <p class="insight-body">
+        好的老師的目標，是讓學生不再需要自己。
+        5Q 不是要讓你依賴一個工具，
+        而是讓你<em>內化五德的思維方式</em>，
+        讓「問出好問題」成為你的本能，
+        而不是每次都要查攻略。
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     FIVE QUALITIES
+══════════════════════════════════════ -->
+<section class="section-five fade-in" id="five-qualities">
+  <div class="section-label">五德框架 · The Five Qualities</div>
+  <h2 class="section-title">一個好的提示詞，同時具備五種品質</h2>
+
+  <div class="five-grid">
+    <div class="five-item">
+      <div class="five-char">木</div>
+      <span class="five-en">Boundary · 定界</span>
+      <p class="five-desc">邊界清晰。你知道自己在問什麼，也知道不在問什麼。問題有範圍，AI 才能聚焦。</p>
+    </div>
+    <div class="five-item">
+      <div class="five-char">火</div>
+      <span class="five-en">Manifestation · 顯化</span>
+      <p class="five-desc">意圖明確。你的目的清楚表達，而不是讓 AI 猜你要什麼用途、什麼格式、什麼深度。</p>
+    </div>
+    <div class="five-item">
+      <div class="five-char">土</div>
+      <span class="five-en">Context · 承載</span>
+      <p class="five-desc">脈絡完整。背景資訊給夠，AI 才能站在你的位置思考，而不是從零開始猜。</p>
+    </div>
+    <div class="five-item">
+      <div class="five-char">金</div>
+      <span class="five-en">Precision · 精煉</span>
+      <p class="five-desc">語言精準。去掉多餘的字，留下本質。冗長不等於詳細；精煉才是對 AI 最友善的語言。</p>
+    </div>
+    <div class="five-item">
+      <div class="five-char">水</div>
+      <span class="five-en">Depth · 深潛</span>
+      <p class="five-desc">思考深度。你願意在問之前先想清楚，而不是把思考外包給 AI。深問，才有深答。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     DIALOGUE SECTION
+══════════════════════════════════════ -->
+<section class="section-dialogue fade-in" id="dialogue">
+  <div class="dialogue-inner">
+    <div class="dialogue-label">真實對話記錄 · Live Session</div>
+    <h2 class="dialogue-title">
+      這不是示範。<br>
+      這是它自然發生的樣子。
+    </h2>
+
+    <div class="dialogue-excerpt">
+      <span class="speaker">—— 對話節錄</span>
+      <p>
+        從一個關於「AI 業內鄙視鏈」的玩笑開始，對話自然走到了五行結構分析，
+        走到了「5Q 調的是人不是模型」，走到了「魔鬼不要錢，他要人墮落」，
+        再走到產品定位與行銷策略——中間沒有斷點，沒有人說「讓我示範一下」。
+      </p>
+      <p>
+        這就是五德均衡的提問所能觸及的深度。<br>
+        同樣的模型，不同的人問，得到的對話品質差很多。
+      </p>
+    </div>
+
+    <p class="dialogue-desc">
+      完整對話記錄開放閱讀，不刪節，不美化。<br>
+      讀者可以自己判斷：深度是怎麼產生的，在哪一刻發生的。<br>
+      這份記錄本身，就是最好的產品說明書。
+    </p>
+
+    <div class="cta-row">
+      <a href="references/index.html" class="btn btn-primary">閱讀完整對話記錄</a>
+      <a href="#five-qualities" class="btn btn-ghost" style="color:var(--paper);border-color:rgba(245,240,232,0.25);">回到五德框架</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     DONATION
+══════════════════════════════════════ -->
+<section class="section-donate fade-in" id="support">
+  <div class="section-label">煉化資助 · Support the Research</div>
+  <h2 class="section-title">若此工具對你有所助益</h2>
+  <p class="donate-desc">
+    5Q 是獨立研究者的長期實踐，非商業產品。<br>
+    若這套框架讓你問出了更好的問題，歡迎支持後續研究與算力支出。
+  </p>
+
+  <div class="donate-grid">
+    <div class="donate-card">
+      <div class="donate-label">數位資助</div>
+      <div class="donate-method">Solana (SOL)</div>
+      <code class="donate-addr">ori1oUjzoeKovtiyT74KjT2Xb8vSZTZEUsCV43uz1D5</code>
+    </div>
+    <div class="donate-card">
+      <div class="donate-label">國際贊助</div>
+      <div class="donate-method">PayPal</div>
+      <a href="https://paypal.me/yuhsienjen" class="donate-link" target="_blank" rel="noopener">paypal.me/yuhsienjen</a>
+    </div>
+    <div class="donate-card">
+      <div class="donate-label">台灣本地</div>
+      <div class="donate-method">銀行轉帳</div>
+      <a href="mailto:yhsien@duck.com" class="donate-link">yhsien@duck.com</a>
+      <p class="donate-note">為保護研究者隱私，帳號採私下提供，感謝體諒。</p>
+    </div>
+  </div>
+
+  <p class="donate-quote">『 五德全備，生剋適度，歸元而不止。 』</p>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-left">
+    <div class="project">5Q — Five-Quality Prompt Diagnostic Tool</div>
+    <div class="author">y賢（yhsien）&nbsp;·&nbsp; 獨立研究者・跨學科理論建構</div>
+  </div>
+  <div class="footer-right">
+    <span class="tagline">本文件經由人工連續導引，經由 AI 整理生成，最後由人工修訂完稿</span>
+    Copyright © 2026 JEN, YUHSIEN. 版權所有。<br>
+    Project: fiveq-prompt · 嚴禁未經授權之散佈。
+  </div>
 </footer>
+
+
+<script>
+  // ── WUXING DIAGRAM ──────────────────────────────
+  (function() {
+    const svg = document.getElementById('wuxing-svg');
+    const ns = 'http://www.w3.org/2000/svg';
+    const cx = 170, cy = 170, R = 120, nr = 22;
+
+    const nodes = [
+      { ch:'木', fill:'#3d8c35', stroke:'rgba(45,90,39,0.6)',  bg:'rgba(45,90,39,0.15)'  },
+      { ch:'火', fill:'#cc5533', stroke:'rgba(139,46,26,0.6)', bg:'rgba(139,46,26,0.15)' },
+      { ch:'土', fill:'#b8860b', stroke:'rgba(122,92,46,0.6)', bg:'rgba(122,92,46,0.15)' },
+      { ch:'金', fill:'#9eb8c8', stroke:'rgba(61,90,110,0.6)', bg:'rgba(61,90,110,0.15)' },
+      { ch:'水', fill:'#2a6090', stroke:'rgba(26,61,90,0.6)',  bg:'rgba(26,61,90,0.15)'  },
+    ];
+
+    // Perfect regular pentagon, starting at top (-π/2), going clockwise
+    const pts = nodes.map((_, i) => {
+      const a = -Math.PI/2 + i * 2*Math.PI/5;
+      return { x: cx + R*Math.cos(a), y: cy + R*Math.sin(a) };
+    });
+
+    function mkEl(tag, attrs) {
+      const el = document.createElementNS(ns, tag);
+      Object.entries(attrs).forEach(([k,v]) => el.setAttribute(k, v));
+      return el;
+    }
+
+    // Helper: edge point from node A toward node B
+    function edgePt(a, b) {
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      return { x: a.x + (dx/d)*nr, y: a.y + (dy/d)*nr };
+    }
+
+    // Outer rings
+    svg.appendChild(mkEl('circle', { cx, cy, r:155, stroke:'rgba(184,134,11,0.15)', 'stroke-width':1 }));
+    svg.appendChild(mkEl('circle', { cx, cy, r:120, stroke:'rgba(184,134,11,0.08)', 'stroke-width':1, 'stroke-dasharray':'4 6' }));
+
+    // 相生 lines (adjacent pentagon edges)
+    for (let i=0; i<5; i++) {
+      const j = (i+1)%5;
+      const a = edgePt(pts[i], pts[j]);
+      const b = edgePt(pts[j], pts[i]);
+      svg.appendChild(mkEl('line', {
+        x1:a.x, y1:a.y, x2:b.x, y2:b.y,
+        stroke:'rgba(184,134,11,0.35)', 'stroke-width':1
+      }));
+    }
+
+    // 相剋 lines (skip-one star)
+    for (let i=0; i<5; i++) {
+      const j = (i+2)%5;
+      const a = edgePt(pts[i], pts[j]);
+      const b = edgePt(pts[j], pts[i]);
+      svg.appendChild(mkEl('line', {
+        x1:a.x, y1:a.y, x2:b.x, y2:b.y,
+        stroke:'rgba(139,46,26,0.18)', 'stroke-width':0.8
+      }));
+    }
+
+    // Node circles and labels
+    nodes.forEach((n, i) => {
+      const p = pts[i];
+      svg.appendChild(mkEl('circle', { cx:p.x, cy:p.y, r:nr, fill:n.bg, stroke:n.stroke, 'stroke-width':1.5 }));
+      const t = mkEl('text', {
+        x:p.x, y:p.y+7,
+        'text-anchor':'middle',
+        fill:n.fill,
+        'font-family':'serif',
+        'font-size':18,
+        'font-weight':900
+      });
+      t.textContent = n.ch;
+      svg.appendChild(t);
+    });
+  })();
+
+  // ── FADE IN ─────────────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('.fade-in').forEach((child, i) => {
+          setTimeout(() => child.classList.add('visible'), i * 120);
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
