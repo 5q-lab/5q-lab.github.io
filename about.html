@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>y賢 yhsien — 關於</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+Mono:wght@300;400&display=swap');
+
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --gold: #b8860b;
+    --gold-light: #d4a843;
+    --mist: #8a9aaa;
+    --line: rgba(26,20,16,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif TC', Georgia, serif;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  .top-nav {
+    padding: 28px 8vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .top-nav a {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .top-nav a:hover { color: var(--ink); }
+
+  .site-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    color: var(--mist);
+  }
+
+  /* ── HERO ── */
+  .about-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 82vh;
+  }
+
+  .hero-text {
+    padding: 10vh 6vw 10vh 8vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .eyebrow {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .eyebrow::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .name-zh {
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  .name-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--mist);
+    margin-bottom: 3rem;
+    letter-spacing: 0.08em;
+  }
+
+  .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+    margin-bottom: 2.5rem;
+  }
+
+  .role-list {
+    list-style: none;
+    margin-bottom: 3rem;
+  }
+
+  .role-list li {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: #3a2e24;
+    line-height: 2;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  .role-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+  }
+
+  .creation-stmt {
+    border-left: 2px solid var(--gold);
+    padding: 1rem 0 1rem 1.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    font-style: italic;
+    font-weight: 300;
+    color: #4a3828;
+    line-height: 1.8;
+  }
+
+  .creation-stmt em {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--mist);
+    margin-top: 0.6rem;
+    font-style: italic;
+  }
+
+  /* ── PORTRAIT SIDE ── */
+  .hero-portrait {
+    background: var(--ink);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-portrait::before {
+    content: 'yhsien';
+    position: absolute;
+    right: -0.05em;
+    bottom: -0.1em;
+    font-size: 16vw;
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    pointer-events: none;
+  }
+
+  .portrait-img {
+    width: 78%;
+    max-width: 360px;
+    display: block;
+    position: relative;
+    z-index: 1;
+    mix-blend-mode: luminosity;
+    opacity: 0.88;
+    filter: contrast(1.05);
+  }
+
+  /* ── ABOUT BODY ── */
+  .about-body {
+    padding: 10vh 8vw;
+    max-width: 900px;
+  }
+
+  .section-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    font-weight: 900;
+    margin-bottom: 4vh;
+    line-height: 1.3;
+  }
+
+  .body-text {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 2;
+    color: #3a2e24;
+    margin-bottom: 1.5rem;
+  }
+
+  .body-text strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ── STATEMENT BLOCK ── */
+  .stmt-block {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8vh 8vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stmt-block::before {
+    content: '煉化';
+    position: absolute;
+    right: 5vw;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18vw;
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .stmt-inner {
+    max-width: 720px;
+  }
+
+  .stmt-zh {
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    font-weight: 300;
+    line-height: 2.2;
+    color: rgba(245,240,232,0.85);
+    margin-bottom: 1.5rem;
+  }
+
+  .stmt-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(245,240,232,0.4);
+    line-height: 1.9;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 6vh 8vw;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .footer-left .project {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-left .author {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--mist);
+  }
+
+  .footer-right {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--mist);
+    text-align: right;
+    line-height: 1.9;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .about-hero { grid-template-columns: 1fr; }
+    .hero-portrait { min-height: 50vh; align-items: center; }
+    .portrait-img { width: 60%; }
+  }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="top-nav">
+  <a href="index.html">← 返回首頁</a>
+  <span class="site-label">5Q · Five-Quality Prompt Diagnostic</span>
+</nav>
+
+
+<!-- ── HERO ── -->
+<section class="about-hero">
+  <div class="hero-text fade-in">
+    <div class="eyebrow">關於作者 · About</div>
+
+    <h1 class="name-zh">y賢</h1>
+    <p class="name-en">yhsien &nbsp;·&nbsp; JEN YUHSIEN</p>
+
+    <div class="divider"></div>
+
+    <ul class="role-list">
+      <li>獨立研究者・跨學科理論建構</li>
+      <li>5Q 五行煉化理論原創者</li>
+      <li>系統工程實作者（Rust・Python）</li>
+      <li>從哲學本體論出發，落地工程</li>
+    </ul>
+
+    <blockquote class="creation-stmt">
+      本網站經由提示詞連續導引，AI 整理生成，最後由人工修訂完稿。
+      <em>This website was synthesized by AI through iterative prompt steering<br>and finalized through human revision.</em>
+    </blockquote>
+  </div>
+
+  <div class="hero-portrait">
+    <img src="public/yhsien-pic.png" alt="y賢 yhsien" class="portrait-img">
+  </div>
+</section>
+
+
+<!-- ── ABOUT BODY ── -->
+<section class="about-body fade-in">
+  <div class="section-label">背景 · Background</div>
+  <h2 class="section-title">理論建構者，也是工程實作者</h2>
+
+  <p class="body-text">
+    y賢從哲學本體論出發，試圖在古典思想與現代系統工程之間搭橋。
+    5Q 五行煉化理論（Five-Quality Framework）是這個嘗試的具體成果——
+    一套將古代五行哲學轉化為<strong>可操作診斷工具</strong>的跨學科框架。
+  </p>
+
+  <p class="body-text">
+    5Q-prompt 診斷工具以 Rust 實作，使用語意模型（ONNX / Jina）對提示詞進行
+    五德向量分析，給出量化診斷與修復建議。
+    工具本身是理論的工程映射，不是概念展示。
+  </p>
+
+  <p class="body-text">
+    目前研究重心：5Q 動力論（5Q-1）、觀察者效應（5Q-2），
+    以及如何讓五行框架在 AI 時代保持嚴格的描述性，
+    而不淪為另一種<strong>模糊的心靈雞湯</strong>。
+  </p>
+</section>
+
+
+<!-- ── STATEMENT BLOCK ── -->
+<section class="stmt-block fade-in">
+  <div class="stmt-inner">
+    <p class="stmt-zh">
+      「調整的不是模型。<br>
+      調整的是你。」<br><br>
+      ——這一句話，是 5Q 的核心，<br>
+      也是 y賢做這件事的理由。
+    </p>
+    <p class="stmt-en">
+      "It is not the model that needs adjusting.<br>
+      It is you."<br><br>
+      This is the core of 5Q,<br>
+      and the reason this work exists.
+    </p>
+  </div>
+</section>
+
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer-left">
+    <div class="project">5Q — Five-Quality Prompt Diagnostic Tool</div>
+    <div class="author">y賢（yhsien）&nbsp;·&nbsp; 獨立研究者・跨學科理論建構</div>
+  </div>
+  <div class="footer-right">
+    Copyright © 2026 JEN, YUHSIEN. 版權所有。<br>
+    嚴禁未經授權之散佈。
+  </div>
+</footer>
+
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
