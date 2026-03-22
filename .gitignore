@@ -9,5 +9,8 @@ dist/
 # 開發素材，僅留本機
 references/
 docs/
+core-scripts/
 *.code-workspace
 .gitmessage*
+initGit.sh
+.env*
