@@ -440,6 +440,82 @@
   .five-item:nth-child(4) .five-char { color: #3d5a6e; }
   .five-item:nth-child(5) .five-char { color: #1a3d5a; }
 
+  /* ── TERMINAL DEMO ── */
+  .section-demo {
+    background: #0d1117;
+    padding: 10vh 8vw;
+    position: relative;
+  }
+
+  .section-demo .section-label {
+    color: var(--gold-light);
+  }
+
+  .section-demo .section-title {
+    color: var(--paper);
+    margin-bottom: 4vh;
+  }
+
+  .terminal-window {
+    max-width: 760px;
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    background: rgba(255,255,255,0.05);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .terminal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .terminal-dot:nth-child(1) { background: #ff5f57; }
+  .terminal-dot:nth-child(2) { background: #febc2e; }
+  .terminal-dot:nth-child(3) { background: #28c840; }
+
+  .terminal-title {
+    margin-left: auto;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.58rem;
+    color: rgba(255,255,255,0.18);
+    letter-spacing: 0.1em;
+  }
+
+  .terminal-body {
+    padding: 1.8rem 2rem;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.74rem;
+    line-height: 1.75;
+    color: rgba(245,240,232,0.75);
+    white-space: pre;
+    overflow-x: auto;
+    background: #0d1117;
+  }
+
+  .t-cmd  { color: var(--gold-light); }
+  .t-box  { color: rgba(245,240,232,0.5); }
+  .t-head { color: rgba(245,240,232,0.9); font-weight: bold; }
+  .t-good { color: #4caf50; }
+  .t-warn { color: #ffb347; }
+  .t-bad  { color: #ef5350; }
+  .t-dim  { color: rgba(245,240,232,0.35); }
+  .t-gold { color: var(--gold-light); }
+
+  .demo-note {
+    margin-top: 2.5rem;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: rgba(245,240,232,0.3);
+  }
+
   /* ── DONATION ── */
   .section-donate {
     padding: 10vh 8vw;
@@ -516,6 +592,15 @@
 
   .donate-link:hover {
     border-color: var(--gold);
+  }
+
+  .donate-addr-link {
+    text-decoration: none;
+    display: block;
+  }
+
+  .donate-addr-link:hover .donate-addr {
+    color: var(--gold);
   }
 
   .donate-note {
@@ -740,6 +825,53 @@
 
 
 <!-- ══════════════════════════════════════
+     TERMINAL DEMO
+══════════════════════════════════════ -->
+<section class="section-demo fade-in">
+  <div class="section-label">工具示範 · Live Output</div>
+  <h2 class="section-title">它跑起來長這樣</h2>
+
+  <div class="terminal-window">
+    <div class="terminal-bar">
+      <div class="terminal-dot"></div>
+      <div class="terminal-dot"></div>
+      <div class="terminal-dot"></div>
+      <span class="terminal-title">5q — diagnostic</span>
+    </div>
+    <div class="terminal-body"><span class="t-cmd">$ 5q --file my_prompt.md --style pro</span>
+
+<span class="t-box">  ╔══════════════════════════════════════╗</span>
+<span class="t-box">  ║</span>  <span class="t-head">🔍 5Q 提示詞架構診斷報告（專業版）</span>  <span class="t-box">║</span>
+<span class="t-box">  ╚══════════════════════════════════════╝</span>
+  Token 長度：<span class="t-gold">481 chars</span>
+
+  <span class="t-dim">── [語系校準] 語意基準錨點 ──────────────────────────────</span>
+  語系基準：<span class="t-gold">zh</span>　靜態權重：40%　語意權重：60%
+
+  <span class="t-dim">── [萃取] 指令特徵識別 ──</span>
+
+   定界　/ Boundary        <span class="t-good">██████████</span>  20/20　<span class="t-good">優良</span>
+   顯化　/ Manifestation   <span class="t-good">████████░░</span>  16/20　<span class="t-good">優良</span>
+   承載　/ Substrate       <span class="t-bad">████░░░░░░</span>   <span class="t-bad">9/20　不足 ⚠</span>
+   定律　/ Regulation      <span class="t-warn">███████░░░</span>  14/20　<span class="t-warn">達標</span>
+   流通　/ Circulation     <span class="t-warn">███████░░░</span>  14/20　<span class="t-warn">達標</span>
+
+  <span class="t-dim">── 綜合評估結果 ────────────────────────────────────────────</span>
+  total  <span class="t-bad">███████░░░</span>  <span class="t-bad">73/100　🔴 高風險（易產生幻覺或失控輸出）</span>
+
+  <span class="t-dim">── [建議] 優化與修復方向 ───────────────────────</span>
+  <span class="t-gold">[ · 建議]</span> 補充充分的背景知識、前置條件或 Few-Shot 範例，
+           確保模型基於事實生成，而非無根據推測。
+
+  <span class="t-dim">⏳ 總診斷耗時: 4.79s</span>
+<span class="t-cmd">$</span> <span class="t-dim">_</span></div>
+  </div>
+
+  <p class="demo-note">以上為真實工具輸出，承載（土德）不足 → 73分。補充背景後通常可提升至 85+。</p>
+</section>
+
+
+<!-- ══════════════════════════════════════
      DIALOGUE SECTION
 ══════════════════════════════════════ -->
 <section class="section-dialogue fade-in" id="dialogue">
@@ -792,7 +924,10 @@
     <div class="donate-card">
       <div class="donate-label">數位資助</div>
       <div class="donate-method">Solana (SOL)</div>
-      <code class="donate-addr">ori1oUjzoeKovtiyT74KjT2Xb8vSZTZEUsCV43uz1D5</code>
+      <a href="solana:ori1oUjzoeKovtiyT74KjT2Xb8vSZTZEUsCV43uz1D5?label=5Q%20Research%20Support&message=5Q%20五行煉化研究支持" class="donate-addr-link">
+        <code class="donate-addr">ori1oUjzoeKovtiyT74KjT2Xb8vSZTZEUsCV43uz1D5</code>
+      </a>
+      <p class="donate-note">點擊以 Phantom / Solflare 開啟轉帳</p>
     </div>
     <div class="donate-card">
       <div class="donate-label">國際贊助</div>
