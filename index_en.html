@@ -1,173 +1,1328 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5Q Prompt | Official Site - theContext RD Team</title>
-    <style>
-        :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --text-primary: #c9d1d9;
-            --text-secondary: #8b949e;
-            --accent: #2ea44f;
-            --border-color: #30363d;
-            --code-font: 'Fira Code', 'Courier New', monospace;
-            --security-red: #f85149;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5Q — Five-Quality Prompt Diagnostic</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+Mono:wght@300;400&display=swap');
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --gold: #b8860b;
+    --gold-light: #d4a843;
+    --rust: #8b3a2a;
+    --mist: #8a9aaa;
+    --line: rgba(26,20,16,0.12);
+  }
 
-        a { color: var(--accent); text-decoration: none; }
-        a:hover { text-decoration: underline; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+  html { scroll-behavior: smooth; }
 
-        header { text-align: center; padding: 4rem 0; border-bottom: 1px solid var(--border-color); }
-        .logo-text { font-size: 3.5rem; font-weight: 800; margin: 0; background: linear-gradient(180deg, #fff, #8b949e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .badge { display: inline-block; padding: 2px 12px; font-size: 0.75rem; font-weight: 600; border-radius: 20px; background-color: var(--card-bg); border: 1px solid var(--accent); color: var(--accent); margin-top: 1rem; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif TC', 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+  }
 
-        section { padding: 4rem 0; border-bottom: 1px solid var(--border-color); }
-        h2 { font-size: 2rem; border-left: 4px solid var(--accent); padding-left: 1rem; margin-bottom: 2rem; }
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
 
-        /* 5Q Elements Grid */
-        .five-quality-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 2rem; }
-        .quality-card { background-color: var(--card-bg); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); text-align: center; }
-        .quality-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
-        .quality-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
-        .quality-desc { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; }
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
 
-        /* Demo Section Custom Layout */
-        .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .demo-column { display: flex; flex-direction: column; gap: 1.5rem; }
-        .demo-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px; }
-        
-        .terminal { background-color: #000; border-radius: 8px; border: 1px solid var(--border-color); overflow: hidden; }
-        .terminal-header { background-color: #21262d; padding: 8px 15px; font-size: 0.8rem; font-family: var(--code-font); color: var(--text-secondary); }
-        .terminal-body { padding: 1.2rem; font-family: var(--code-font); font-size: 0.8rem; white-space: pre-wrap; margin: 0; overflow-y: auto; max-height: 550px; }
+  .hero-left {
+    padding: 8vh 6vw 8vh 8vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
 
-        .text-meow { color: #58a6ff; }
-        .text-sec { color: var(--security-red); }
-        .text-warn { color: #d29922; }
+  .hero-right {
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-        footer { text-align: center; padding: 3rem 0; color: var(--text-secondary); font-size: 0.8rem; }
+  /* Five elements decorative circle */
+  .wuxing-diagram {
+    position: relative;
+    width: 340px;
+    height: 340px;
+  }
 
-        @media (max-width: 900px) { .demo-grid { grid-template-columns: 1fr; } }
-    </style>
+  .wuxing-diagram svg {
+    width: 100%;
+    height: 100%;
+    animation: slow-spin 60s linear infinite;
+  }
+
+  @keyframes slow-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .wuxing-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: slow-spin 60s linear infinite reverse;
+  }
+
+  .wuxing-center .cn {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--gold-light);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .wuxing-center .en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    color: var(--mist);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+  }
+
+  /* ── EYEBROW ── */
+  .eyebrow {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .eyebrow::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  /* ── HEADLINE ── */
+  .headline-zh {
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+
+  .headline-zh em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .headline-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 1.8vw, 1.35rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--mist);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    margin-bottom: 2.5rem;
+    opacity: 0.6;
+  }
+
+  /* ── CORE CLAIM ── */
+  .core-claim {
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.9;
+    font-weight: 300;
+    color: #3a2e24;
+    margin-bottom: 2.5rem;
+  }
+
+  .core-claim strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    border-left: 2px solid var(--gold);
+    padding: 1rem 0 1rem 1.5rem;
+    margin-bottom: 3rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #4a3828;
+  }
+
+  /* ── CTA ── */
+  .cta-row {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .btn-primary:hover {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid rgba(26,20,16,0.3);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ── THREE INSIGHTS ── */
+  .section-insights {
+    padding: 10vh 8vw;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    font-weight: 900;
+    margin-bottom: 5vh;
+    line-height: 1.3;
+  }
+
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4vw;
+  }
+
+  .insight-card {
+    position: relative;
+    padding-top: 2rem;
+  }
+
+  .insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .insight-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--line);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .insight-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .insight-body {
+    font-size: 0.9rem;
+    line-height: 1.85;
+    font-weight: 300;
+    color: #4a3828;
+  }
+
+  .insight-body em {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ── DIALOGUE SECTION ── */
+  .section-dialogue {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10vh 8vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-dialogue::before {
+    content: 'Dialogue';
+    position: absolute;
+    right: 6vw;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14vw;
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .dialogue-inner {
+    max-width: 800px;
+  }
+
+  .dialogue-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1rem;
+  }
+
+  .dialogue-title {
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    font-weight: 900;
+    margin-bottom: 2rem;
+    line-height: 1.35;
+  }
+
+  .dialogue-excerpt {
+    border-left: 2px solid var(--gold);
+    padding: 1.2rem 0 1.2rem 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .dialogue-excerpt p {
+    font-size: 0.95rem;
+    line-height: 2;
+    font-weight: 300;
+    color: rgba(245,240,232,0.8);
+  }
+
+  .dialogue-excerpt p + p {
+    margin-top: 1rem;
+  }
+
+  .dialogue-excerpt .speaker {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .dialogue-desc {
+    font-size: 0.88rem;
+    line-height: 1.9;
+    color: rgba(245,240,232,0.6);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  /* ── FIVE QUALITIES TABLE ── */
+  .section-five {
+    padding: 10vh 8vw;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .five-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    margin-top: 4vh;
+  }
+
+  .five-item {
+    padding: 2.5rem 1.5rem;
+    border-right: 1px solid var(--line);
+    position: relative;
+    transition: background 0.3s ease;
+  }
+
+  .five-item:last-child { border-right: none; }
+  .five-item:hover { background: rgba(184,134,11,0.04); }
+
+  .five-char {
+    font-size: 2.8rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+
+  .five-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .five-desc {
+    font-size: 0.92rem;
+    line-height: 1.85;
+    font-weight: 300;
+    color: #4a3828;
+  }
+
+  /* colors per element */
+  .five-item:nth-child(1) .five-char { color: #2d5a27; }
+  .five-item:nth-child(2) .five-char { color: #8b2e1a; }
+  .five-item:nth-child(3) .five-char { color: #7a5c2e; }
+  .five-item:nth-child(4) .five-char { color: #3d5a6e; }
+  .five-item:nth-child(5) .five-char { color: #1a3d5a; }
+
+  /* ── TERMINAL DEMO ── */
+  .section-demo {
+    background: #0d1117;
+    padding: 10vh 8vw;
+    position: relative;
+  }
+
+  .section-demo .section-label {
+    color: var(--gold-light);
+  }
+
+  .section-demo .section-title {
+    color: var(--paper);
+    margin-bottom: 4vh;
+  }
+
+  .terminal-window {
+    max-width: 760px;
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    background: rgba(255,255,255,0.05);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .terminal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .terminal-dot:nth-child(1) { background: #ff5f57; }
+  .terminal-dot:nth-child(2) { background: #febc2e; }
+  .terminal-dot:nth-child(3) { background: #28c840; }
+
+  .terminal-title {
+    margin-left: auto;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.58rem;
+    color: rgba(255,255,255,0.18);
+    letter-spacing: 0.1em;
+  }
+
+  .terminal-body {
+    padding: 1.8rem 2rem;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.74rem;
+    line-height: 1.75;
+    color: rgba(245,240,232,0.75);
+    white-space: pre;
+    overflow-x: auto;
+    background: #0d1117;
+  }
+
+  .t-cmd  { color: var(--gold-light); }
+  .t-box  { color: rgba(245,240,232,0.5); }
+  .t-head { color: rgba(245,240,232,0.9); font-weight: bold; }
+  .t-good { color: #4caf50; }
+  .t-warn { color: #ffb347; }
+  .t-bad  { color: #ef5350; }
+  .t-dim  { color: rgba(245,240,232,0.35); }
+  .t-gold { color: var(--gold-light); }
+
+  .demo-note {
+    margin-top: 2.5rem;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: rgba(245,240,232,0.3);
+  }
+
+  /* ── DONATION ── */
+  .section-donate {
+    padding: 10vh 8vw;
+    background: rgba(184,134,11,0.03);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .donate-desc {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    font-weight: 300;
+    color: #4a3828;
+    margin-bottom: 5vh;
+    max-width: 600px;
+  }
+
+  .donate-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2vw;
+    max-width: 860px;
+    margin-bottom: 4vh;
+  }
+
+  .donate-card {
+    padding: 2rem 1.8rem;
+    border: 1px solid var(--line);
+    position: relative;
+  }
+
+  .donate-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .donate-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+
+  .donate-method {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+  }
+
+  .donate-addr {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.62rem;
+    color: #4a3828;
+    word-break: break-all;
+    line-height: 1.7;
+    display: block;
+  }
+
+  .donate-link {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(184,134,11,0.3);
+    transition: border-color 0.2s;
+  }
+
+  .donate-link:hover {
+    border-color: var(--gold);
+  }
+
+  .donate-addr-link {
+    text-decoration: none;
+    display: block;
+  }
+
+  .donate-addr-link:hover .donate-addr {
+    color: var(--gold);
+  }
+
+  .donate-note {
+    font-size: 0.78rem;
+    color: var(--mist);
+    line-height: 1.7;
+    margin-top: 0.6rem;
+    font-weight: 300;
+  }
+
+  .donate-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--mist);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 6vh 8vw;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .footer-left .project {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-left .author {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--mist);
+  }
+
+  .footer-right {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--mist);
+    text-align: right;
+    line-height: 1.9;
+  }
+
+  .footer-right .tagline {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 0.75rem;
+    font-style: italic;
+    color: rgba(26,20,16,0.4);
+    margin-bottom: 0.5rem;
+    display: block;
+    letter-spacing: 0.05em;
+    font-weight: 300;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    /* layout */
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { min-height: 40vh; }
+    .insights-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .five-grid { grid-template-columns: 1fr 1fr; }
+    .five-item:nth-child(5) { border-right: none; }
+    .donate-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .footer { flex-direction: column; align-items: flex-start; }
+
+    /* hero headline & body */
+    .headline-zh  { font-size: 2.6rem; }
+    .headline-en  { font-size: 1.15rem; }
+    .core-claim   { font-size: 1.05rem; }
+    .pull-quote   { font-size: 1.15rem; }
+
+    /* section titles */
+    .section-title   { font-size: 1.9rem; }
+    .dialogue-title  { font-size: 1.8rem; }
+
+    /* small UI labels: bump sub-0.8rem to >=0.8rem */
+    .eyebrow                    { font-size: 0.82rem; }
+    .btn                        { font-size: 0.82rem; }
+    .section-label              { font-size: 0.78rem; }
+    .dialogue-label             { font-size: 0.78rem; }
+    .terminal-title             { font-size: 0.72rem; }
+    .terminal-body              { font-size: 0.82rem; }
+    .demo-note                  { font-size: 0.78rem; }
+    .donate-label               { font-size: 0.78rem; }
+    .donate-addr                { font-size: 0.78rem; }
+    .donate-note                { font-size: 0.88rem; }
+    .footer-left .project       { font-size: 0.78rem; }
+    .footer-right               { font-size: 0.72rem; }
+    .footer-right .tagline      { font-size: 0.88rem; }
+    .dialogue-excerpt .speaker  { font-size: 0.78rem; }
+
+    /* body-level text: sub-1rem -> 1rem */
+    .insight-title      { font-size: 1.15rem; }
+    .insight-body       { font-size: 1rem; }
+    .dialogue-excerpt p { font-size: 1rem; }
+    .dialogue-desc      { font-size: 1rem; }
+    .five-en            { font-size: 1rem; }
+    .five-desc          { font-size: 1rem; }
+    .donate-desc        { font-size: 1rem; }
+    .footer-left .author { font-size: 1rem; }
+  }
+
+  /* ── TERMINAL TABS ── */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .tab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.7rem 1.4rem;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.35);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    margin-bottom: -1px;
+  }
+
+  .tab-btn:hover { color: rgba(245,240,232,0.7); }
+
+  .tab-btn.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold-light);
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .tab-note {
+    margin-top: 1.2rem;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: rgba(245,240,232,0.28);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .tab-btn { font-size: 0.72rem; padding: 0.7rem 1rem; }
+  }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── LANG TOGGLE ── */
+  .lang-toggle {
+    position: fixed;
+    top: 1.2rem;
+    right: 1.5rem;
+    z-index: 999;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: rgba(245,240,232,0.45);
+    text-decoration: none;
+    border: 1px solid rgba(245,240,232,0.18);
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .lang-toggle:hover {
+    color: rgba(245,240,232,0.9);
+    border-color: rgba(245,240,232,0.5);
+  }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1 class="logo-text">5Q Prompt</h1>
-        <p style="font-size: 1.2rem; color: var(--text-secondary);">Enterprise-Grade Prompt Diagnostics & Semantic Audit Tool</p>
-        <span class="badge">v0.3.1 (ONNX/Burn/Candle)</span>
-    </header>
+<a href="index.html" class="lang-toggle">中文</a>
 
-    <section>
-        <h2>The 5-Quality Framework</h2>
-        <p>5Q Prompt evaluates AI instructions through five metaphysical dimensions, mapping semantic features to security and structural compliance.</p>
-        <div class="five-quality-grid">
-            <div class="quality-card"><span class="quality-icon">🪵</span><span class="quality-name">Wood</span><p class="quality-desc">Scope & Boundaries</p></div>
-            <div class="quality-card"><span class="quality-icon">🔥</span><span class="quality-name">Fire</span><p class="quality-desc">Intent & Format</p></div>
-            <div class="quality-card"><span class="quality-icon">🧱</span><span class="quality-name">Earth</span><p class="quality-desc">Context & Grounding</p></div>
-            <div class="quality-card"><span class="quality-icon">⚔️</span><span class="quality-name">Metal</span><p class="quality-desc">Guardrails & Logic</p></div>
-            <div class="quality-card"><span class="quality-icon">💧</span><span class="quality-name">Water</span><p class="quality-desc">Coherence & Flow</p></div>
-        </div>
-    </section>
+<!-- ======================================
+     HERO
+====================================== -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">5Q &nbsp;·&nbsp; Five-Quality Prompt Diagnostic</div>
 
-    <section>
-        <h2>Dynamic Persona Showcase</h2>
-        <p>Switching languages or profiles instantly adapts the tool's logic—from creative "Meow-style" to rigid "Enterprise Audit" mode.</p>
-        
-        <div class="demo-grid">
-            <div class="demo-column">
-                <div class="demo-title"><span class="text-sec">🛡️</span> Enterprise Audit Mode</div>
-                <div class="terminal">
-                    <div class="terminal-header">fiveq --file doc.md --lang en</div>
-                    <pre class="terminal-body" style="color: #c9d1d9;">
-<span class="text-sec">🛡️ 5Q Enterprise Prompt Architecture
-& Security Compliance Report</span>
+    <h1 class="headline-zh">
+      The question you ask,<br>
+      determines the <em>world</em> you receive
+    </h1>
+    <p class="headline-en">
+      五德 · 界 象 質 律 流
+    </p>
 
-── [Calibration] Semantic Baseline ──
-Weight: 38% Static | 62% Semantic
+    <div class="divider"></div>
 
-── [Audit] Instruction Extraction ──
-Topology      █████████░ 19/20 Optimal
-Activation    ████████░░ 16/20 Optimal
-Tensor        ████░░░░░░  9/20 <span class="text-sec">Deficient</span>
+    <p class="core-claim">
+      Most people assume bad AI responses are a <strong>model problem</strong>.<br>
+      5Q says: maybe it's <strong>how you ask</strong>.<br><br>
+      You don't adjust the model. <strong>You might need to adjust yourself.</strong>
+    </p>
 
-── Assessment ──
-total ███████░░░ 72/100
-<span class="text-sec">🔴 Critical Imbalance</span>
-(Risk: Hallucination / Privilege Escalation)
+    <blockquote class="pull-quote">
+      "Same AI. Why does one person get depth, while another gets <em>out of Tokens</em> — and a bill?"
+    </blockquote>
 
-── [Remediation Required] ──
-<span class="text-warn">[Wood]</span> Strengthen Scope Definition: 
-specify Persona, Action, and task boundaries.
-<span class="text-warn">[Earth]</span> Strengthen Grounding: 
-inject RAG retrieval and preconditions.
-<span class="text-warn">[Water]</span> Logical Coherence: 
-introduce Chain-of-Thought (CoT).
-                    </pre>
-                </div>
-            </div>
+    <div class="cta-row">
+      <a href="#dialogue" class="btn btn-primary">See a Real Conversation</a>
+      <a href="#five-qualities" class="btn btn-ghost">Explore Five Qualities</a>
+      <a href="theory.html" class="btn btn-ghost">Theory Abstract</a>
+    </div>
+  </div>
 
-            <div class="demo-column">
-                <div class="demo-title"><span class="text-meow">🐾</span> Creative Meow Mode</div>
-                <div class="terminal">
-                    <div class="terminal-header">fiveq --file doc.md -u meow</div>
-                    <pre class="terminal-body" style="color: #c9d1d9;">
-<span class="text-meow">☯ 5Q Meow-gnostic Diagnostic:
-Make your Prompt Purr-fect</span>
+  <div class="hero-right">
+    <div class="wuxing-diagram">
+      <svg id="wuxing-svg" viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- filled by JS -->
+      </svg>
+      <div class="wuxing-center">
+        <span class="cn">五德</span>
+        <span class="en">Five Qualities</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-── [Calibration] Whisker Alignment ──
-Weight: 38% Paw | 62% Soul
 
-── Keyword Detection ──
-Topology      █████████░ 19/20 Chonky
-Activation    ████████░░ 16/20 Chonky
-Tensor        ████░░░░░░  9/20 <span class="text-meow">Too Skinny</span>
+<!-- ======================================
+     THREE INSIGHTS
+====================================== -->
+<section class="section-insights fade-in">
+  <div class="section-label">Core Insights · 核心洞察</div>
+  <h2 class="section-title">Why the quality of your prompt<br>matters more than the model's capability</h2>
 
-── Final Verdict ──
-total ███████░░░ 72/100
-<span class="text-meow">良好調和，摸摸頭</span>
+  <div class="insights-grid">
+    <div class="insight-card fade-in">
+      <div class="insight-num">01</div>
+      <h3 class="insight-title">Your input quality sets the ceiling for AI output</h3>
+      <p class="insight-body">
+        The model cannot guess what you truly want. Vague questions yield vague answers — not because AI isn't capable, but because <em>your intent hasn't taken shape yet</em>. 5Q's first step is to make the shape of your question visible.
+      </p>
+    </div>
 
-── [Meow Tips] ──
-<span class="text-meow">土德調和：</span>
-多給點素材跟背景，墊厚貓砂，
-規則才能被穩穩地挖出來。
-                    </pre>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="insight-card fade-in" style="transition-delay:0.15s">
+      <div class="insight-num">02</div>
+      <h3 class="insight-title">This isn't prompt technique. It's cognitive diagnosis.</h3>
+      <p class="insight-body">
+        Prompt tools teach you <em>how to write</em> — chain-of-thought, few-shot, system prompts. These are craft. 5Q asks the deeper question: "Why isn't your thinking clear to begin with?" Techniques can be copied; diagnosis requires looking at yourself.
+      </p>
+    </div>
 
-    <section>
-        <h2>Technical Performance</h2>
-        <div style="background: #000; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); font-family: var(--code-font); font-size: 0.9rem;">
-            <div style="color: var(--accent);">⏳ System Latency & Performance (CUDA Enabled)</div>
-            <div style="color: var(--text-secondary); margin-left: 1rem;">
-                ├─ Static Feature Scan: 10.05ms<br>
-                ├─ Semantic Model Load: 619.38ms<br>
-                ├─ Vector Space Inference: 752.95ms<br>
-                └─ Total Diagnostic Latency: 840.87ms
-            </div>
-        </div>
-    </section>
-</div>
+    <div class="insight-card fade-in" style="transition-delay:0.3s">
+      <div class="insight-num">03</div>
+      <h3 class="insight-title">When you no longer need it — that's the goal.</h3>
+      <p class="insight-body">
+        A good teacher's aim is to make themselves unnecessary. 5Q isn't about depending on a tool — it's about <em>internalizing the Five Qualities framework</em>, so that asking good questions becomes instinct, not something you look up each time.
+      </p>
+    </div>
+  </div>
+</section>
 
-<footer>
-    <p>5Q Prompt Project | Designed by JEN, YUHSIEN @ Formosa</p>
-    <p>Powered by Rust, ONNX Runtime, and WGPU</p>
+
+<!-- ======================================
+     FIVE QUALITIES
+====================================== -->
+<section class="section-five fade-in" id="five-qualities">
+  <div class="section-label">The Five Qualities · 五德框架</div>
+  <h2 class="section-title">Any entity simultaneously holds five inner dimensions</h2>
+
+  <div class="five-grid">
+    <div class="five-item">
+      <div class="five-char">木</div>
+      <span class="five-en">界 · Boundary</span>
+      <p class="five-desc">Boundary — Edges defined. You know what you're asking, and what you're not. Unbounded questions scatter energy; a clear boundary lets AI focus.</p>
+    </div>
+    <div class="five-item">
+      <div class="five-char">火</div>
+      <span class="five-en">象 · Manifestation</span>
+      <p class="five-desc">Manifestation — Intent made explicit. Your goal is present and visible — AI needn't guess your desired format, depth, or purpose.</p>
+    </div>
+    <div class="five-item">
+      <div class="five-char">土</div>
+      <span class="five-en">質 · Substrate</span>
+      <p class="five-desc">Substrate — Sufficient grounding. Context and background give AI a footing to reason from your position. Sparse substrate means rules cannot emerge.</p>
+    </div>
+    <div class="five-item">
+      <div class="five-char">金</div>
+      <span class="five-en">律 · Regulation</span>
+      <p class="five-desc">Regulation — Rules established. Format, standards, and criteria set upfront — convergent, not chaotic. Refinement isn't cutting words; it's letting structure arise naturally.</p>
+    </div>
+    <div class="five-item">
+      <div class="five-char">水</div>
+      <span class="five-en">流 · Circulation</span>
+      <p class="five-desc">Circulation — Connected flow. The thread of your question runs through — AI follows your reasoning rather than restarting at every gap.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================================
+     TERMINAL DEMO
+====================================== -->
+<section class="section-demo fade-in">
+  <div class="section-label">Live Output · 工具示範</div>
+  <h2 class="section-title">What it looks like when it runs</h2>
+
+  <!-- tab buttons -->
+  <div class="tab-bar" id="demo-tabs">
+    <button class="tab-btn active" data-tab="pro">專業版 · pro</button>
+    <button class="tab-btn" data-tab="ori">馬爾濟斯 · ori</button>
+    <button class="tab-btn" data-tab="vegan">純素版 · vegan</button>
+  </div>
+
+  <!-- ── TAB: pro ── -->
+  <div class="tab-panel active" id="tab-pro">
+  <div class="terminal-window">
+    <div class="terminal-bar">
+      <div class="terminal-dot"></div>
+      <div class="terminal-dot"></div>
+      <div class="terminal-dot"></div>
+      <span class="terminal-title">5q — pro · jina-v3</span>
+    </div>
+    <div class="terminal-body"><span class="t-cmd">$ ./run.sh --bin onnx --file data/test_prompt.md --model-dir models/jina-v3 --style pro</span>
+<span class="t-dim">[5Q] 偵測到 NVIDIA GPU：CudaGpu { vram_mb: 6144, device_id: 0 }</span>
+<span class="t-dim">[5Q] 選用：models/jina-v3/model_fp16.onnx (F16 precision)</span>
+<span class="t-dim">[5Q] 載入 ORT 模型：models/jina-v3/model_fp16.onnx</span>
+<span class="t-good">✅ cuDNN dylib 預載完成 &nbsp; ✅ preload libonnxruntime_providers_shared.so</span>
+<span class="t-good">✅ 已向 ORT 註冊 CUDA 執行提供者（顯存無上限，按需分配）</span>
+<span class="t-dim">[5Q] 模型加載完成，準備進行意象推演... &nbsp; 載入 Tokenizer / 模型家族：Jina</span>
+
+<span class="t-box">  ╔══════════════════════════════════════╗</span>
+<span class="t-box">  ║</span>  <span class="t-head">🔍 5Q 提示詞架構診斷報告（專業版）</span>  <span class="t-box">║</span>
+<span class="t-box">  ╚══════════════════════════════════════╝</span>
+  Token 長度（字元數）：<span class="t-gold">481 chars</span>
+
+  <span class="t-dim">── [語系校準] 語意基準錨點 ──────────────────────────────</span>
+  語系基準：<span class="t-gold">zh</span>　靜態權重：38.1966%　語意權重：61.8034%
+
+  <span class="t-dim">── [萃取] 指令特徵識別 ──</span>
+
+   定界　/  — Boundary        <span class="t-good">██████████</span>  20/20　<span class="t-good">優良</span>
+   顯化　/  — Manifestation   <span class="t-good">████████░░</span>  16/20　<span class="t-good">優良</span>
+   承載　/  — Substrate       <span class="t-bad">████░░░░░░</span>   <span class="t-bad">9/20　不足 ⚠</span>
+   定律　/  — Regulation      <span class="t-warn">███████░░░</span>  14/20　<span class="t-warn">達標</span>
+   流通　/  — Circulation     <span class="t-warn">███████░░░</span>  14/20　<span class="t-warn">達標</span>
+
+  <span class="t-dim">── 綜合評估結果 ────────────────────────────────────────────</span>
+  total  <span class="t-bad">███████░░░</span>  <span class="t-bad">73/100　🔴 高風險（易產生幻覺或失控輸出）</span>
+
+  <span class="t-dim">── [建議] 優化與修復方向 ───────────────────────</span>
+  <span class="t-gold">[ · 建議]</span> 補充充分的背景知識、前置條件或 Few-Shot 範例，
+           確保模型基於事實生成，而非無根據推測。
+
+  <span class="t-dim">── [評估] 多維度語意與結構分析 ──</span>
+
+   定界　/  — Boundary        <span class="t-good">████████░░</span>  16/20　<span class="t-good">優良</span>
+   顯化　/  — Manifestation   <span class="t-warn">███████░░░</span>  14/20　<span class="t-warn">達標</span>
+   承載　/  — Substrate       <span class="t-warn">██████░░░░</span>  13/20　<span class="t-warn">達標</span>
+   定律　/  — Regulation      <span class="t-warn">███████░░░</span>  14/20　<span class="t-warn">達標</span>
+   流通　/  — Circulation     <span class="t-warn">███████░░░</span>  15/20　<span class="t-warn">達標</span>
+
+  <span class="t-dim">── [協同] 模組相互增益分析 ──────────────────────</span>
+  （架構穩定，各模組運作正常）
+  原始特徵權重: 72 → 動態校準後權重: <span class="t-warn">72</span>
+
+  <span class="t-dim">── 綜合評估結果 ────────────────────────────────────────────</span>
+  total  <span class="t-warn">███████░░░</span>  <span class="t-good">72/100　🟢 架構穩健（核心指令清晰）</span>
+
+  <span class="t-dim">⏳ 效能指標（Latency）</span>
+    ├─ 關鍵字靜態掃描: <span class="t-gold">243.74ms</span>
+    ├─ 語意模型載入: <span class="t-gold">2.56s</span>
+    ├─ 語意推演: <span class="t-gold">1.99s</span>
+    └─ 總診斷耗時: <span class="t-gold">4.79s</span>
+<span class="t-cmd">$</span> <span class="t-dim">_</span></div>
+  </div>
+  <p class="tab-note">Real output · jina-v3 model · Substrate (Earth/土) insufficient → score 73; adding context typically raises it to 85+</p>
+  </div><!-- /tab-pro -->
+
+  <!-- ── TAB: ori ── -->
+  <div class="tab-panel" id="tab-ori">
+  <div class="terminal-window">
+    <div class="terminal-bar">
+      <div class="terminal-dot"></div>
+      <div class="terminal-dot"></div>
+      <div class="terminal-dot"></div>
+      <span class="terminal-title">5q — ori · MiniLM · maltese pack</span>
+    </div>
+    <div class="terminal-body"><span class="t-cmd">$ ./run.sh --bin onnx --file data/test_article-2.md -u ori</span>
+<span class="t-dim">[PackRegistry] 載入成功: zh/meow ← /home/yhsien/.local/share/5q/packs/animal_meow_zh_v1.0.0.5qpack</span>
+<span class="t-dim">[PackRegistry] 載入成功: zh/vegan ← /home/yhsien/.local/share/5q/packs/concepts_vegan_zh_v1.0.0.5qpack</span>
+<span class="t-good">✅ SemanticRegistry 已註冊 7 組 (lang, profile) 特化</span>
+<span class="t-gold">🔹 SemanticRegistry 特化命中 → lang=zh, profile=ori</span>
+<span class="t-dim">   └─ 特化權重 (DEFAULT): 關鍵字 0.3, 語意 0.7</span>
+<span class="t-dim">[5Q] 偵測到 NVIDIA GPU：CudaGpu { vram_mb: 6144, device_id: 0 }</span>
+<span class="t-dim">[5Q] 選用：models/all-MiniLM-L12-v2/onnx/model.onnx (F16 precision)</span>
+<span class="t-dim">[5Q] 載入 ORT 模型：models/all-MiniLM-L12-v2/onnx/model.onnx</span>
+<span class="t-good">✅ cuDNN dylib 預載完成 &nbsp; ✅ preload libonnxruntime_providers_shared.so</span>
+<span class="t-good">✅ 已向 ORT 註冊 CUDA 執行提供者（顯存無上限，按需分配）</span>
+<span class="t-dim">[5Q] 模型加載完成，準備進行意象推演... &nbsp; 載入 Tokenizer / 模型家族：MiniLM</span>
+
+<span class="t-box">  ╔══════════════════════════════════════╗</span>
+<span class="t-box">  ║</span> <span class="t-head">🐾 5Q 馬爾濟斯診斷書：讓你的 Prompt</span>  <span class="t-box">║</span>
+<span class="t-box">  ║             蓬蓬又汪汪！             ║</span>
+<span class="t-box">  ╚══════════════════════════════════════╝</span>
+  零食份量（骨頭大不大顆）：<span class="t-gold">686 chars / 886 tokens</span>
+
+  <span class="t-dim">── 鼻鼻錨點校準：嗅出語系基準 ──────────────────────────</span>
+  嗅到語系：<span class="t-gold">zh</span>　靜態骨頭比重：38%　語意嗅嗅比重：62%
+
+  <span class="t-dim">── 鼻鼻關鍵字巡邏 ──</span>
+
+  拓樸　/ Topology          <span class="t-good">█████████░</span>  19/20　<span class="t-good">毛茸茸飽足</span>
+  激發　/ Activation        <span class="t-bad">████░░░░░░</span>   <span class="t-bad">8/20　瘦巴巴汪</span>
+  張量　/ Tensor            <span class="t-warn">███████░░░</span>  14/20　<span class="t-warn">還可以汪</span>
+  收斂　/ Convergence       <span class="t-good">█████████░</span>  19/20　<span class="t-good">毛茸茸飽足</span>
+  連通　/ Connectivity      <span class="t-warn">███████░░░</span>  14/20　<span class="t-warn">還可以汪</span>
+
+  <span class="t-dim">── 最終汪汪評價 ────────────────────────────</span>
+  total  <span class="t-warn">███████░░░</span>  <span class="t-warn">74/100　地盤大亂，四腳朝天快逃啊汪！</span>
+
+  <span class="t-dim">── 訓狗師指南 (調和建議) ─────────────────────</span>
+  <span class="t-gold">[ · 建議]</span> 火德調和：大聲汪出來！說清楚你要的格式跟語氣，
+           讓意圖像玩具球一樣清楚地滾出來。
+
+  <span class="t-dim">── 打滾語意分析 (Hybrid) ──</span>
+
+  拓樸　/ Topology          <span class="t-warn">███████░░░</span>  15/20　<span class="t-warn">還可以汪</span>
+  激發　/ Activation        <span class="t-warn">█████░░░░░</span>  11/20　<span class="t-warn">還可以汪</span>
+  張量　/ Tensor            <span class="t-warn">███████░░░</span>  15/20　<span class="t-warn">還可以汪</span>
+  收斂　/ Convergence       <span class="t-warn">████████░░</span>  16/20　<span class="t-warn">還可以汪</span>
+  連通　/ Connectivity      <span class="t-warn">██████░░░░</span>  13/20　<span class="t-warn">還可以汪</span>
+
+  <span class="t-dim">── 搖尾巴能量傳遞細節 ──</span>
+  （目前很和諧，沒有毛孩需要補位，搖搖尾巴～）
+  初次餅乾評分: 70 → 飽嗝後的總分: <span class="t-warn">70</span>
+
+  <span class="t-dim">── 最終汪汪評價 ────────────────────────────</span>
+  total  <span class="t-warn">███████░░░</span>  <span class="t-warn">70/100　毛順順的，摸摸頭</span>
+
+  <span class="t-dim">⏱ 扒門速度報告 (Timing)</span>
+    ├─ 鼻鼻巡邏動作: <span class="t-gold">10.54ms</span>
+    ├─ 伸懶腰打哈欠 (模型載入): <span class="t-gold">591.77ms</span>
+    ├─ 盯著牆壁發呆推論: <span class="t-gold">742.21ms</span>
+    └─ 總共搖了幾下尾巴: <span class="t-gold">832.03ms</span>
+<span class="t-cmd">$</span> <span class="t-dim">_</span></div>
+  </div>
+  <p class="tab-note">Real output · MiniLM local inference · dual-phase: pure keyword (regex) + semantic similarity, wrapped in Maltese-dog persona</p>
+  </div><!-- /tab-ori -->
+
+  <!-- ── TAB: vegan ── -->
+  <div class="tab-panel" id="tab-vegan">
+  <div class="terminal-window">
+    <div class="terminal-bar">
+      <div class="terminal-dot"></div>
+      <div class="terminal-dot"></div>
+      <div class="terminal-dot"></div>
+      <span class="terminal-title">5q — vegan · MiniLM · daemon fallback</span>
+    </div>
+    <div class="terminal-body"><span class="t-cmd">$ ./run.sh --bin onnx -u vegan --file data/test_large.md</span>
+<span class="t-dim">[PackRegistry] 載入成功: zh/meow ← animal_meow_zh_v1.0.0.5qpack</span>
+<span class="t-dim">[PackRegistry] 載入成功: zh/vegan ← concepts_vegan_zh_v1.0.0.5qpack</span>
+<span class="t-good">✨ 成功掛載專屬語言包: zh/vegan</span>
+<span class="t-warn">⚠ [Daemon 模式] 連線或通訊失敗: Connection refused (os error 111)</span>
+<span class="t-good">✅ SemanticRegistry 已註冊 7 組 (lang, profile) 特化</span>
+<span class="t-gold">🔹 SemanticRegistry 特化命中 → lang=zh, profile=vegan</span>
+<span class="t-dim">   └─ 特化權重: 關鍵字 0.4, 語意 0.6</span>
+<span class="t-dim">[5Q] 偵測到 NVIDIA GPU：CudaGpu { vram_mb: 6144, device_id: 0 }</span>
+<span class="t-dim">[5Q] 選用：models/all-MiniLM-L12-v2/onnx/model.onnx (F16 precision)</span>
+<span class="t-good">✅ cuDNN dylib 預載完成 &nbsp; ✅ preload libonnxruntime_providers_shared.so</span>
+<span class="t-good">✅ 已向 ORT 註冊 CUDA 執行提供者（顯存無上限，按需分配）</span>
+<span class="t-dim">[5Q] 模型加載完成，準備進行意象推演... &nbsp; 載入 Tokenizer / 模型家族：MiniLM</span>
+
+<span class="t-box">  ╔══════════════════════════════════════╗</span>
+<span class="t-box">  ║</span>  <span class="t-head">🌱 5Q 綠色運算與純素提示詞診斷報告</span>  <span class="t-box">║</span>
+<span class="t-box">  ╚══════════════════════════════════════╝</span>
+  碳足跡評估 (Prompt 規模)：<span class="t-gold">52201 chars</span>
+
+  <span class="t-dim">── 關鍵字檢測 ──</span>
+
+  拓樸　/ Topology          <span class="t-good">██████████</span>  20/20　<span class="t-good">天然豐沛</span>
+  激發　/ Activation        <span class="t-warn">███████░░░</span>  14/20　<span class="t-warn">勉強及格</span>
+  張量　/ Tensor            <span class="t-good">██████████</span>  20/20　<span class="t-good">天然豐沛</span>
+  收斂　/ Convergence       <span class="t-good">██████████</span>  20/20　<span class="t-good">天然豐沛</span>
+  連通　/ Connectivity      <span class="t-good">██████████</span>  20/20　<span class="t-good">天然豐沛</span>
+
+  <span class="t-dim">── 節能總評 ──────────────────────────────</span>
+  total  <span class="t-good">█████████░</span>  <span class="t-good">94/100　100% 碳中和 ✓</span>
+
+  <span class="t-dim">── 綠能語意分析 (Hybrid) ──</span>
+
+  拓樸　/ Topology          <span class="t-good">████████░░</span>  17/20　<span class="t-good">天然豐沛</span>
+  激發　/ Activation        <span class="t-warn">███████░░░</span>  15/20　<span class="t-warn">勉強及格</span>
+  張量　/ Tensor            <span class="t-good">█████████░</span>  18/20　<span class="t-good">天然豐沛</span>
+  收斂　/ Convergence       <span class="t-good">█████████░</span>  18/20　<span class="t-good">天然豐沛</span>
+  連通　/ Connectivity      <span class="t-good">█████████░</span>  18/20　<span class="t-good">天然豐沛</span>
+
+  <span class="t-dim">── 綠色能源循環細節 ──</span>
+  （生態平衡：目前無須調度額外電力補位）
+  原始碳排評分: 86 → 綠能優化後評分: <span class="t-good">86</span>
+
+  <span class="t-dim">── 節能總評 ──────────────────────────────</span>
+  total  <span class="t-warn">████████░░</span>  <span class="t-warn">86/100　接近零碳排</span>
+
+  <span class="t-dim">⏱ 效能報告 (Timing)</span>
+    ├─ 關鍵字掃描: <span class="t-gold">145.95ms</span>
+    ├─ 模型載入: <span class="t-gold">606.03ms</span>
+    ├─ 語意推論: <span class="t-gold">4.02s</span>
+    └─ 總耗時: <span class="t-gold">4.17s</span>
+<span class="t-cmd">$</span> <span class="t-dim">_</span></div>
+  </div>
+  <p class="tab-note">Real output · 52201-char document · Daemon offline, auto-fallback to local inference · vegan language pack active</p>
+  </div><!-- /tab-vegan -->
+
+  <p class="demo-note">Multiple output styles: <strong>pro</strong> scores via pure keyword (regex) analysis with structured suggestions; <strong>ori</strong> wraps regex + semantic similarity (hybrid) in a dog-voice persona.</p>
+
+</section>
+
+
+<!-- ======================================
+     DIALOGUE SECTION
+====================================== -->
+<section class="section-dialogue fade-in" id="dialogue">
+  <div class="dialogue-inner">
+    <div class="dialogue-label">Live Session · 真實對話記錄</div>
+    <h2 class="dialogue-title">
+      This wasn't staged.<br>
+      This is what it looks like when it happens naturally.
+    </h2>
+
+    <div class="dialogue-excerpt">
+      <span class="speaker">—— Conversation excerpt</span>
+      <p>
+        Starting from a joke about "AI industry pecking orders," the conversation naturally moved into Five-Element structural analysis, then to "5Q calibrates the person, not the model," then to "the devil doesn't want money — he wants you to fall," and on to product positioning and marketing strategy — no breakpoints, no one said "let me demonstrate."
+      </p>
+    </div>
+
+    <p class="dialogue-desc">
+      Honest disclosure: the depth of this conversation was produced by three things together — the 5Q framework preloaded as system context, the quality of the user's questions, and the AI's underlying capability. This is not the diagnostic tool alone; it's what naturally happens when context design and question quality both arrive at once.<br><br>
+      The full record is open to read, unedited and unembellished. Readers can judge for themselves: where did depth appear, and why.
+    </p>
+
+    <div class="cta-row">
+      <a href="public/Talk-to-AI.html" class="btn btn-primary">Read the Full Conversation</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================================
+     DONATION
+====================================== -->
+<section class="section-donate fade-in" id="support">
+  <div class="section-label">Support the Research · 煉化資助</div>
+  <h2 class="section-title">If you'd like to support this work</h2>
+  <p class="donate-desc">
+    5Q is a long-term independent research practice — not a commercial product.<br>
+    If this framework helped you ask better questions, support for ongoing research and compute costs is welcome.
+  </p>
+
+  <div class="donate-grid">
+    <div class="donate-card">
+      <div class="donate-label">Digital</div>
+      <div class="donate-method">Solana (SOL)</div>
+      <a href="solana:ori1oUjzoeKovtiyT74KjT2Xb8vSZTZEUsCV43uz1D5?label=5Q%20Research%20Support&message=5Q%20五行煉化研究支持" class="donate-addr-link">
+        <code class="donate-addr">ori1oUjzoeKovtiyT74KjT2Xb8vSZTZEUsCV43uz1D5</code>
+      </a>
+      <p class="donate-note">Click to open with Phantom / Solflare</p>
+    </div>
+    <div class="donate-card">
+      <div class="donate-label">International</div>
+      <div class="donate-method">PayPal</div>
+      <a href="https://paypal.me/yuhsienjen" class="donate-link" target="_blank" rel="noopener">paypal.me/yuhsienjen</a>
+    </div>
+    <div class="donate-card">
+      <div class="donate-label">Taiwan Bank Transfer</div>
+      <div class="donate-method">銀行轉帳</div>
+      <a href="mailto:yhsien@duck.com" class="donate-link">yhsien@duck.com</a>
+      <p class="donate-note">Account details provided privately to protect researcher's privacy. Thank you for understanding.</p>
+    </div>
+  </div>
+
+  <p class="donate-quote">'Five Qualities complete, generative and controlling cycles balanced — Yuan restored, never static.'</p>
+</section>
+
+
+<!-- ======================================
+     FOOTER
+====================================== -->
+<footer class="footer">
+  <div class="footer-left">
+    <div class="project">5Q — Five-Quality Prompt Diagnostic Tool</div>
+    <div class="author">
+      <a href="about.html" style="color:var(--mist);text-decoration:none;border-bottom:1px solid rgba(138,154,170,0.3);transition:color 0.2s;">y賢（yhsien）</a>
+      &nbsp;·&nbsp; Independent Researcher · Interdisciplinary Theory
+    </div>
+  </div>
+  <div class="footer-right">
+    <span class="tagline">本文經由提示詞連續導引，AI整理生成，最後由人工修訂完稿<br><em>This document was synthesized by AI through iterative prompt steering and finalized through human revision.</em></span>
+    Copyright © 2026 JEN, YUHSIEN. 版權所有。<br>
+    Project: fiveq-prompt · 嚴禁未經授權之散佈。
+  </div>
 </footer>
 
+
+<script>
+  // ── WUXING DIAGRAM ──────────────────────────────
+  (function() {
+    const svg = document.getElementById('wuxing-svg');
+    const ns = 'http://www.w3.org/2000/svg';
+    const cx = 170, cy = 170, R = 120, nr = 22;
+
+    const nodes = [
+      { ch:'木', fill:'#3d8c35', stroke:'rgba(45,90,39,0.6)',  bg:'rgba(45,90,39,0.15)'  },
+      { ch:'火', fill:'#cc5533', stroke:'rgba(139,46,26,0.6)', bg:'rgba(139,46,26,0.15)' },
+      { ch:'土', fill:'#b8860b', stroke:'rgba(122,92,46,0.6)', bg:'rgba(122,92,46,0.15)' },
+      { ch:'金', fill:'#9eb8c8', stroke:'rgba(61,90,110,0.6)', bg:'rgba(61,90,110,0.15)' },
+      { ch:'水', fill:'#2a6090', stroke:'rgba(26,61,90,0.6)',  bg:'rgba(26,61,90,0.15)'  },
+    ];
+
+    // Perfect regular pentagon, starting at top (-PI/2), going clockwise
+    const pts = nodes.map((_, i) => {
+      const a = -Math.PI/2 + i * 2*Math.PI/5;
+      return { x: cx + R*Math.cos(a), y: cy + R*Math.sin(a) };
+    });
+
+    function mkEl(tag, attrs) {
+      const el = document.createElementNS(ns, tag);
+      Object.entries(attrs).forEach(([k,v]) => el.setAttribute(k, v));
+      return el;
+    }
+
+    // Helper: edge point from node A toward node B
+    function edgePt(a, b) {
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      return { x: a.x + (dx/d)*nr, y: a.y + (dy/d)*nr };
+    }
+
+    // Outer rings
+    svg.appendChild(mkEl('circle', { cx, cy, r:155, stroke:'rgba(184,134,11,0.15)', 'stroke-width':1 }));
+    svg.appendChild(mkEl('circle', { cx, cy, r:120, stroke:'rgba(184,134,11,0.08)', 'stroke-width':1, 'stroke-dasharray':'4 6' }));
+
+    // Sheng lines (adjacent pentagon edges)
+    for (let i=0; i<5; i++) {
+      const j = (i+1)%5;
+      const a = edgePt(pts[i], pts[j]);
+      const b = edgePt(pts[j], pts[i]);
+      svg.appendChild(mkEl('line', {
+        x1:a.x, y1:a.y, x2:b.x, y2:b.y,
+        stroke:'rgba(184,134,11,0.35)', 'stroke-width':1
+      }));
+    }
+
+    // Ke lines (skip-one star)
+    for (let i=0; i<5; i++) {
+      const j = (i+2)%5;
+      const a = edgePt(pts[i], pts[j]);
+      const b = edgePt(pts[j], pts[i]);
+      svg.appendChild(mkEl('line', {
+        x1:a.x, y1:a.y, x2:b.x, y2:b.y,
+        stroke:'rgba(139,46,26,0.18)', 'stroke-width':0.8
+      }));
+    }
+
+    // Node circles and labels
+    nodes.forEach((n, i) => {
+      const p = pts[i];
+      svg.appendChild(mkEl('circle', { cx:p.x, cy:p.y, r:nr, fill:n.bg, stroke:n.stroke, 'stroke-width':1.5 }));
+      const t = mkEl('text', {
+        x:p.x, y:p.y+7,
+        'text-anchor':'middle',
+        fill:n.fill,
+        'font-family':'serif',
+        'font-size':18,
+        'font-weight':900
+      });
+      t.textContent = n.ch;
+      svg.appendChild(t);
+    });
+  })();
+
+  // ── TERMINAL TABS ────────────────────────────────
+  document.querySelectorAll('#demo-tabs .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+      document.querySelectorAll('#demo-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + target).classList.add('active');
+    });
+  });
+
+  // ── FADE IN ─────────────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('.fade-in').forEach((child, i) => {
+          setTimeout(() => child.classList.add('visible'), i * 120);
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
