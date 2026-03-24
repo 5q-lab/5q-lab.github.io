@@ -100,6 +100,37 @@
   }
   .keywords strong { color: var(--gold); font-weight: 400; }
 
+  /* ── DOI ── */
+  .doi-block {
+    margin-top: 2rem;
+    padding: 1.4rem 1.8rem;
+    border-left: 2px solid var(--gold);
+    background: rgba(212,175,55,0.04);
+  }
+  .doi-block .doi-label {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.7rem;
+  }
+  .doi-block a {
+    display: block;
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 0.88rem;
+    color: var(--mist);
+    text-decoration: none;
+    line-height: 1.9;
+    transition: color 0.2s;
+  }
+  .doi-block a:hover { color: var(--gold); }
+  .doi-block .doi-title {
+    font-size: 0.78rem;
+    color: rgba(245,240,232,0.4);
+    margin-bottom: 0.15rem;
+  }
+
   /* stmt-inner override for theory */
   .stmt-inner { max-width: 860px; }
   .stmt-en {
@@ -132,7 +163,7 @@
 <div class="theory-hero fade-in">
   <div class="eyebrow">理論摘要 · Theory Abstract</div>
   <h1 class="theory-title">五行煉化理論概念框架</h1>
-  <p class="theory-subtitle">5Q Conceptual Framework — 5Q-0 v1.7</p>
+  <p class="theory-subtitle">5Q Conceptual Framework — v1 · 2026.03.24</p>
   <div class="divider"></div>
 </div>
 
@@ -154,7 +185,7 @@
     <li><span class="num">其三，</span>五德以隔位制約的幾何結構形成相剋（Ke Cycle），提供任何存在系統的失衡診斷框架。</li>
   </ul>
 
-  <p class="ellipsis-note">……（其餘命題涉及更深層的結構機制，尚在整理發展中。）</p>
+  <p class="ellipsis-note">……（其餘命題涉及動力論、觀察者效應與跨尺度父子動力機制，詳見完整論文。）</p>
 
   <p>
     本框架在哲學上可為本體論設計、系統診斷、知識完整性判定提供跨域的共同語言。
@@ -175,12 +206,32 @@
   </p>
 
   <p>
-    Seven core propositions are advanced, of which three are outlined here: (1) any entity simultaneously possesses all five qualities; (2) the generative cycle (Sheng) describes mutual promotion among qualities; (3) the controlling cycle (Ke) provides an intrinsic diagnostic structure for systemic imbalance via alternate-position restraint. … (Further propositions addressing deeper structural mechanisms remain in development.)
+    Seven core propositions are advanced, of which three are outlined here: (1) any entity simultaneously possesses all five qualities; (2) the generative cycle (Sheng) describes mutual promotion among qualities; (3) the controlling cycle (Ke) provides an intrinsic diagnostic structure for systemic imbalance via alternate-position restraint. … (Further propositions — covering dynamics, observer effects, and cross-scale parent-child mechanisms — are detailed in the full papers.)
   </p>
 
   <p>
     The framework offers a shared philosophical vocabulary applicable across ontological design, system diagnosis, and knowledge completeness assessment in any domain.
   </p>
+
+  <hr class="section-divider">
+
+  <div class="section-label">引用 · Cite</div>
+
+  <div class="doi-block">
+    <div class="doi-label">DOI — 正式論文封存 · Theory Archive</div>
+    <div class="doi-title">5Q 五行煉化理論 v1（5Q-0 / 5Q-1 / 5Q-2 / 5Q-i）</div>
+    <a href="https://doi.org/10.5281/zenodo.19199483" target="_blank" rel="noopener">
+      https://doi.org/10.5281/zenodo.19199483
+    </a>
+  </div>
+
+  <div class="doi-block" style="margin-top:1rem;">
+    <div class="doi-label">DOI — 立場論文 · Position Paper</div>
+    <div class="doi-title">五行煉化理論作為跨域本體框架——概念定位與應用邊界</div>
+    <a href="https://doi.org/10.5281/zenodo.19199601" target="_blank" rel="noopener">
+      https://doi.org/10.5281/zenodo.19199601
+    </a>
+  </div>
 
 </section>
 
